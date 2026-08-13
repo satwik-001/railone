@@ -956,9 +956,9 @@ class HomeContentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const sectionHeaderStyle = TextStyle(
-      fontSize: 18,
+      fontSize: 21,
       fontWeight: FontWeight.bold,
-      color: Color(0xFF1E3A8A),
+      color: Color(0xFF0D2160),
     );
     return SafeArea(
       child: SingleChildScrollView(
@@ -987,14 +987,7 @@ class HomeContentScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Text(
-                    'RailOne',
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF334155),
-                    ),
-                  ),
+                  Image.asset('assets/home/logo.png', height: 34),
                   Stack(
                     children: [
                       Container(
@@ -1035,28 +1028,29 @@ class HomeContentScreen extends StatelessWidget {
               Text(
                 'Hi, $userName!',
                 style: const TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFF1E3A8A),
-                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                  color: Color(0xFF16307A),
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 20),
               const Text('Journey Planner', style: sectionHeaderStyle),
               const SizedBox(height: 12),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildJourneyCard(
-                    'Reserved',
-                    'https://images.unsplash.com/photo-1541427468627-a89a96e5ca1d?auto=format&fit=crop&q=80&w=200',
+                  Expanded(
+                    child: _buildJourneyCard('Reserved', 'assets/home/jp0.png'),
                   ),
-                  _buildJourneyCard(
-                    'Unreserved',
-                    'https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&q=80&w=200',
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildJourneyCard(
+                      'Unreserved',
+                      'assets/home/jp1.png',
+                    ),
                   ),
-                  _buildJourneyCard(
-                    'Platform',
-                    'https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&q=80&w=200',
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildJourneyCard('Platform', 'assets/home/jp2.png'),
                   ),
                 ],
               ),
@@ -1068,29 +1062,15 @@ class HomeContentScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      _buildOfferingItem('assets/home/off0.png', 'Search\nTrains'),
+                      _buildOfferingItem('assets/home/off1.png', 'PNR\nStatus'),
                       _buildOfferingItem(
-                        Icons.route,
-                        'Search\nTrains',
-                        const Color(0xFFFFF0F5),
-                        const Color(0xFFF48FB1),
-                      ),
-                      _buildOfferingItem(
-                        Icons.confirmation_num,
-                        'PNR\nStatus',
-                        const Color(0xFFF1F8E9),
-                        const Color(0xFF81C784),
-                      ),
-                      _buildOfferingItem(
-                        Icons.train,
+                        'assets/home/off2.png',
                         'Coach\nPosition',
-                        const Color(0xFFE3F2FD),
-                        const Color(0xFF64B5F6),
                       ),
                       _buildOfferingItem(
-                        Icons.directions_subway,
+                        'assets/home/off3.png',
                         'Track Your\nTrain',
-                        const Color(0xFFFFFDE7),
-                        const Color(0xFFFBC02D),
                       ),
                     ],
                   ),
@@ -1098,25 +1078,10 @@ class HomeContentScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildOfferingItem(
-                        Icons.fastfood,
-                        'Order\nFood',
-                        const Color(0xFFEDE7F6),
-                        const Color(0xFF9575CD),
-                      ),
-                      _buildOfferingItem(
-                        Icons.receipt_long,
-                        'File\nRefund',
-                        const Color(0xFFF5F5F5),
-                        const Color(0xFF616161),
-                      ),
-                      _buildOfferingItem(
-                        Icons.handshake,
-                        'Rail\nMadad',
-                        const Color(0xFFFFEBEE),
-                        const Color(0xFFE57373),
-                      ),
-                      _buildCustomWAVES(),
+                      _buildOfferingItem('assets/home/off4.png', 'Order\nFood'),
+                      _buildOfferingItem('assets/home/off5.png', 'File\nRefund'),
+                      _buildOfferingItem('assets/home/off6.png', 'Rail\nMadad'),
+                      _buildOfferingItem('assets/home/off7.png', 'Go To\nWAVES'),
                     ],
                   ),
                 ],
@@ -1130,11 +1095,11 @@ class HomeContentScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   children: [
                     _buildFactCard(
-                      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Fairy_Queen_locomotive.jpg/300px-Fairy_Queen_locomotive.jpg',
+                      'assets/home/dyk0.png',
                       'First ever passenger train was run between Bori Bandar to Thane on April 16, 1853.',
                     ),
                     _buildFactCard(
-                      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Chenab_Bridge_2023.jpg/300px-Chenab_Bridge_2023.jpg',
+                      'assets/home/dyk1.png',
                       'Chenab Railway Bridge in Dharot, Jammu & Kashmir is the World\'s highest Railway Bridge.',
                     ),
                   ],
@@ -1146,102 +1111,11 @@ class HomeContentScreen extends StatelessWidget {
                 style: sectionHeaderStyle,
               ),
               const SizedBox(height: 12),
-              SizedBox(
-                height: 160,
-                width: double.infinity,
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        'https://images.unsplash.com/photo-1532256241764-9d51e7a5c760?auto=format&fit=crop&q=80&w=800',
-                        width: double.infinity,
-                        height: 160,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Container(
-                          width: double.infinity,
-                          height: 160,
-                          color: const Color(0xFF1E3A8A),
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 44,
-                            height: 44,
-                            decoration: const BoxDecoration(
-                              color: Colors.black,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Center(
-                              child: Text(
-                                '𝕏',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  height: 1.1,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Container(
-                            width: 44,
-                            height: 44,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF1877F2),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.facebook,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Container(
-                            width: 44,
-                            height: 44,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                begin: Alignment.topRight,
-                                end: Alignment.bottomLeft,
-                                colors: [
-                                  Color(0xFF833AB4),
-                                  Color(0xFFFD1D1D),
-                                  Color(0xFFFCAF45),
-                                ],
-                              ),
-                            ),
-                            child: const Icon(
-                              Icons.camera_alt,
-                              color: Colors.white,
-                              size: 24,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Container(
-                            width: 44,
-                            height: 44,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFFF0000),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.play_arrow,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: AspectRatio(
+                  aspectRatio: 971 / 448,
+                  child: Image.asset('assets/home/follow.png', fit: BoxFit.cover),
                 ),
               ),
               const SizedBox(height: 30),
@@ -1252,62 +1126,42 @@ class HomeContentScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildJourneyCard(String title, String imageUrl) {
+  Widget _buildJourneyCard(String title, String asset) {
     return Column(
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: Image.network(
-            imageUrl,
-            width: 100,
-            height: 100,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => Container(
-              width: 100,
-              height: 100,
-              color: Colors.grey.shade300,
-              child: const Icon(Icons.image_not_supported, color: Colors.grey),
-            ),
+          borderRadius: BorderRadius.circular(18),
+          child: AspectRatio(
+            aspectRatio: 312 / 264,
+            child: Image.asset(asset, fit: BoxFit.cover),
           ),
         ),
         const SizedBox(height: 8),
         Text(
           title,
           style: const TextStyle(
-            color: Color(0xFF1E3A8A),
+            color: Color(0xFF33475F),
             fontWeight: FontWeight.w500,
+            fontSize: 15,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildOfferingItem(
-    IconData icon,
-    String label,
-    Color bgColor,
-    Color iconColor,
-  ) {
+  Widget _buildOfferingItem(String asset, String label) {
     return SizedBox(
       width: 80,
       child: Column(
         children: [
-          Container(
-            width: 70,
-            height: 70,
-            decoration: BoxDecoration(
-              color: bgColor,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(icon, color: iconColor, size: 32),
-          ),
+          Image.asset(asset, width: 74, height: 66, fit: BoxFit.contain),
           const SizedBox(height: 8),
           Text(
             label,
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 12,
-              color: Color(0xFF1E3A8A),
+              color: Color(0xFF16324F),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -1316,46 +1170,7 @@ class HomeContentScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCustomWAVES() {
-    return SizedBox(
-      width: 80,
-      child: Column(
-        children: [
-          Container(
-            width: 70,
-            height: 70,
-            decoration: BoxDecoration(
-              color: const Color(0xFF5A5D75),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: const Center(
-              child: Text(
-                'W',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 36,
-                  fontWeight: FontWeight.w900,
-                  fontFamily: 'Acherus',
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Go To\nWAVES',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 12,
-              color: Color(0xFF1E3A8A),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFactCard(String imageUrl, String text) {
+  Widget _buildFactCard(String asset, String text) {
     return Container(
       width: 170,
       margin: const EdgeInsets.only(right: 16),
@@ -1364,20 +1179,11 @@ class HomeContentScreen extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.network(
-              imageUrl,
+            child: Image.asset(
+              asset,
               height: 140,
               width: double.infinity,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
-                height: 140,
-                width: double.infinity,
-                color: Colors.grey.shade300,
-                child: const Icon(
-                  Icons.image_not_supported,
-                  color: Colors.grey,
-                ),
-              ),
             ),
           ),
           const SizedBox(height: 8),
@@ -2317,10 +2123,10 @@ class TicketCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Color badgeBgColor = ticketStatus == 'Reserved'
         ? const Color(0xFFE0F7FA)
-        : const Color(0xFFE8EAF6);
+        : const Color(0xFFF0E6F6);
     Color badgeTextColor = ticketStatus == 'Reserved'
         ? const Color(0xFF00ACC1)
-        : const Color(0xFF7E57C2);
+        : const Color(0xFFC392D4);
 
     return CustomPaint(
       painter: TicketPainter(borderColor: borderColor),
@@ -2334,8 +2140,8 @@ class TicketCard extends StatelessWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
+                    horizontal: 10,
+                    vertical: 3,
                   ),
                   decoration: BoxDecoration(
                     color: badgeBgColor,
@@ -2345,8 +2151,8 @@ class TicketCard extends StatelessWidget {
                     ticketStatus,
                     style: TextStyle(
                       color: badgeTextColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 15,
                     ),
                   ),
                 ),

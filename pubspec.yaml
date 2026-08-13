@@ -64,6 +64,7 @@ flutter:
   #   - images/a_dot_burr.jpeg
    - assets/ticket_qr.png
    - assets/argyle.png
+   - assets/home/
 
   fonts:
     - family: Acherus
