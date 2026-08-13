@@ -72,6 +72,17 @@ flutter:
         - asset: assets/fonts/Acherus-Regular.otf
         - asset: assets/fonts/Acherus-Italic.otf
           style: italic
+    - family: AftikaSoft
+      fonts:
+        - asset: assets/fonts/AftikaSoft-Bold.otf
+    - family: TGGlifko
+      fonts:
+        - asset: assets/fonts/TGGlifko-ExtraBold.otf
+    - family: Technica
+      fonts:
+        - asset: assets/fonts/Technica-Regular.otf
+        - asset: assets/fonts/Technica-Bold.otf
+          weight: 700
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
