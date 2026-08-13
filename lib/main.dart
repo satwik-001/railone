@@ -2623,13 +2623,14 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                           ),
                         ),
                         // --- DYNAMIC PREVIEW CARD (dark diamond panel) ---
-                        AspectRatio(
-                          aspectRatio: 669 / 355,
-                          child: LayoutBuilder(
-                            builder: (context, c) {
-                              final double w = c.maxWidth;
-                              return Container(
-                                color: Colors.black,
+                        LayoutBuilder(
+                          builder: (context, c) {
+                            final double w = c.maxWidth;
+                            final double h = w / 1.884;
+                            return SizedBox(
+                              width: w,
+                              height: h,
+                              child: ClipRect(
                                 child: Stack(
                                   alignment: Alignment.center,
                                   children: [
@@ -2713,7 +2714,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                               color: const Color(0xFFEC1C24),
                                               fontSize: w * 0.135,
                                               height: 1.0,
-                                              fontFamily: 'TGGlifko',
+                                              fontFamily: 'TimerFont',
                                             ),
                                           ),
                                           SizedBox(height: w * 0.006),
@@ -2759,9 +2760,9 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                     ),
                                   ],
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
 
                         // --- MIDDLE SECTION (JOURNEY DETAILS) ---
@@ -3240,6 +3241,10 @@ class VDashPainter extends CustomPainter {
 class HarlequinPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+    canvas.drawRect(
+      Offset.zero & size,
+      Paint()..color = Colors.black,
+    );
     final grey = Paint()..color = const Color(0xFF1A1A1A);
     final double cw = size.width / 12; // half horizontal spacing (~6 across)
     final double ch = cw * 1.5; // diamonds elongated vertically
