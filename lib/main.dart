@@ -71,15 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 60),
-                  const Text(
-                    'RailOne',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF334155),
-                      letterSpacing: -0.5,
-                    ),
-                  ),
+                  Image.asset('assets/home/logo.png', height: 42),
                   const SizedBox(height: 60),
                   const Text(
                     'Login using mPIN',
@@ -190,16 +182,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 20),
                   Row(
                     children: [
-                      Icon(
-                        Icons.face_retouching_natural,
-                        size: 36,
-                        color: Colors.grey.shade800,
+                      Image.asset(
+                        'assets/home/bio_face.png',
+                        width: 40,
+                        height: 40,
+                        color: const Color(0xFF1F2430),
                       ),
-                      const SizedBox(width: 12),
-                      Icon(
-                        Icons.fingerprint,
-                        size: 36,
-                        color: Colors.grey.shade800,
+                      const SizedBox(width: 16),
+                      Image.asset(
+                        'assets/home/bio_finger.png',
+                        width: 40,
+                        height: 40,
+                        color: const Color(0xFF1F2430),
                       ),
                       const Spacer(),
                       Switch(
@@ -971,20 +965,16 @@ class HomeContentScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    width: 46,
+                    height: 46,
+                    padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.grey.shade300),
                     ),
-                    child: const Text(
-                      'A\nअ',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                        height: 1.1,
-                      ),
+                    child: Image.asset(
+                      'assets/home/lang.png',
+                      fit: BoxFit.contain,
                     ),
                   ),
                   Image.asset('assets/home/logo.png', height: 34),
@@ -1102,6 +1092,14 @@ class HomeContentScreen extends StatelessWidget {
                       'assets/home/dyk1.png',
                       'Chenab Railway Bridge in Dharot, Jammu & Kashmir is the World\'s highest Railway Bridge.',
                     ),
+                    _buildFactCard(
+                      'assets/home/dyk2.png',
+                      'Noney Bridge is going to be world\'s tallest railway bridge pier at a height of 141 meters.',
+                    ),
+                    _buildFactCard(
+                      'assets/home/dyk3.png',
+                      'Shree Siddharoodha Swamiji Railway Station Hubballi is world\'s longest Railway Platform with length of 1505 meters.',
+                    ),
                   ],
                 ),
               ),
@@ -1162,7 +1160,7 @@ class HomeContentScreen extends StatelessWidget {
             style: const TextStyle(
               fontSize: 12,
               color: Color(0xFF16324F),
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ],
@@ -1494,10 +1492,10 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
+            Image.asset(
+              'assets/home/tab_icon.png',
+              width: 32,
               color: isSelected ? activeColor : Colors.grey.shade600,
-              size: 24,
             ),
             const SizedBox(height: 4),
             Text(
@@ -2126,7 +2124,7 @@ class TicketCard extends StatelessWidget {
         : const Color(0xFFF0E6F6);
     Color badgeTextColor = ticketStatus == 'Reserved'
         ? const Color(0xFF00ACC1)
-        : const Color(0xFFC392D4);
+        : const Color(0xFFA24FBE);
 
     return CustomPaint(
       painter: TicketPainter(borderColor: borderColor),
