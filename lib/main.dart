@@ -2470,6 +2470,49 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
     return '${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
   }
 
+  String get _mm => (_secondsRemaining ~/ 60).toString().padLeft(2, '0');
+  String get _ss => (_secondsRemaining % 60).toString().padLeft(2, '0');
+
+  // One animated 2-digit group: new slides in from top, old slides down & out.
+  Widget _slideDigits(String value, double w) {
+    return SizedBox(
+      height: w * 0.15,
+      child: ClipRect(
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 280),
+          switchInCurve: Curves.easeOut,
+          switchOutCurve: Curves.easeIn,
+          layoutBuilder: (cur, prev) => Stack(
+            alignment: Alignment.center,
+            children: [...prev, if (cur != null) cur],
+          ),
+          transitionBuilder: (child, anim) {
+            final bool incoming =
+                (child.key as ValueKey<String>).value == value;
+            final Offset begin = incoming
+                ? const Offset(0, -1)
+                : const Offset(0, 1);
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: begin,
+                end: Offset.zero,
+              ).animate(anim),
+              child: child,
+            );
+          },
+          child: Text(
+            value,
+            key: ValueKey<String>(value),
+            style: const TextStyle(
+              color: Color(0xFFEC1C24),
+              height: 1.0,
+            ).copyWith(fontSize: w * 0.135, fontFamily: 'TGRiota'),
+          ),
+        ),
+      ),
+    );
+  }
+
   // --- Date Parsers ---
 
   // Converts '23/03/2026 18:35' string to '23 Mar 2026, 18:35' format for the dark ticket header.
@@ -2599,7 +2642,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                   Container(
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFEDECEE),
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(14),
                       boxShadow: [
                         BoxShadow(
@@ -2709,56 +2752,24 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                           ),
                                         ),
                                         SizedBox(height: w * 0.047),
-                                        SizedBox(
-                                          height: w * 0.15,
-                                          child: ClipRect(
-                                            child: AnimatedSwitcher(
-                                              duration: const Duration(
-                                                milliseconds: 280,
-                                              ),
-                                              switchInCurve: Curves.easeOut,
-                                              switchOutCurve: Curves.easeIn,
-                                              layoutBuilder:
-                                                  (currentChild, prev) => Stack(
-                                                    alignment: Alignment.center,
-                                                    children: [
-                                                      ...prev,
-                                                      if (currentChild != null)
-                                                        currentChild,
-                                                    ],
-                                                  ),
-                                              transitionBuilder: (child, anim) {
-                                                final bool incoming =
-                                                    (child.key
-                                                            as ValueKey<String>)
-                                                        .value ==
-                                                    _formattedTime;
-                                                final Offset begin = incoming
-                                                    ? const Offset(0, -1)
-                                                    : const Offset(0, 1);
-                                                return SlideTransition(
-                                                  position: Tween<Offset>(
-                                                    begin: begin,
-                                                    end: Offset.zero,
-                                                  ).animate(anim),
-                                                  child: child,
-                                                );
-                                              },
-                                              child: Text(
-                                                _formattedTime,
-                                                key: ValueKey<String>(
-                                                  _formattedTime,
-                                                ),
-                                                style: const TextStyle(
-                                                  color: Color(0xFFEC1C24),
-                                                  height: 1.0,
-                                                ).copyWith(
-                                                  fontSize: w * 0.135,
-                                                  fontFamily: 'TGRiota',
-                                                ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            _slideDigits(_mm, w),
+                                            Text(
+                                              ':',
+                                              style: const TextStyle(
+                                                color: Color(0xFFEC1C24),
+                                                height: 1.0,
+                                              ).copyWith(
+                                                fontSize: w * 0.135,
+                                                fontFamily: 'TGRiota',
                                               ),
                                             ),
-                                          ),
+                                            _slideDigits(_ss, w),
+                                          ],
                                         ),
                                         SizedBox(height: w * 0.045),
                                         Text(
@@ -3121,10 +3132,10 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                   // Creates semi-circle indent look using overlays.
                   Positioned(
                     bottom: 125,
-                    left: -15,
+                    left: -24,
                     child: Container(
-                      width: 30,
-                      height: 30,
+                      width: 48,
+                      height: 48,
                       decoration: const BoxDecoration(
                         color: bgColor,
                         shape: BoxShape.circle,
@@ -3133,10 +3144,10 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                   ),
                   Positioned(
                     bottom: 125,
-                    right: -15,
+                    right: -24,
                     child: Container(
-                      width: 30,
-                      height: 30,
+                      width: 48,
+                      height: 48,
                       decoration: const BoxDecoration(
                         color: bgColor,
                         shape: BoxShape.circle,
@@ -3198,18 +3209,11 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
 
             const SizedBox(height: 24),
 
-            // DENSE STATIC QR CODE IMAGE from instructions/artifact.
-            // Shows exact provided appearance, not a functional replica.
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
+            // QR extracted from the real ticket (sits on the page background).
+            Center(
               child: Image.asset(
-                'assets/ticket_qr.png', // The artifact image
-                width: 250,
-                height: 250,
+                'assets/ticket_qr.png',
+                width: MediaQuery.of(context).size.width * 0.56,
                 fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) => const SizedBox(
                   width: 250,
@@ -3221,14 +3225,11 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
 
             const SizedBox(height: 24),
 
-            // Do you know text section
+            // Do you know text section (plain, on the page background)
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16.0),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: const Color(0xFFEDECEE),
-                borderRadius: BorderRadius.circular(12),
-              ),
+              width: double.infinity,
+              margin: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
