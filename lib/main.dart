@@ -2725,8 +2725,18 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1557E6), // RailOne vivid blue
+        backgroundColor: const Color(0xFF1255EA), // RailOne vivid blue
         foregroundColor: Colors.white,
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFF2A72F5), Color(0xFF0F49D6)],
+            ),
+          ),
+        ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -2751,7 +2761,9 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        actions: [IconButton(icon: const Icon(Icons.share), onPressed: () {})],
+        actions: [
+          IconButton(icon: const Icon(Icons.receipt_long), onPressed: () {}),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -2808,7 +2820,14 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                         ),
                         // --- TOP SECTION (DARK/TIMER) ---
                         Container(
-                          color: const Color(0xFF141217),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF141217),
+                            image: DecorationImage(
+                              image: AssetImage('assets/argyle.png'),
+                              repeat: ImageRepeat.repeat,
+                              opacity: 0.5,
+                            ),
+                          ),
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: Row(
                             children: [
@@ -2820,9 +2839,10 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                   child: Text(
                                     'INDIAN RAILWAYS',
                                     style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 10,
-                                      letterSpacing: 2,
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 1.5,
                                     ),
                                   ),
                                 ),
@@ -2896,9 +2916,10 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                   child: Text(
                                     'भारतीय रेल',
                                     style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 12,
-                                      letterSpacing: 2,
+                                      color: Colors.white,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 1.5,
                                     ),
                                   ),
                                 ),
@@ -3151,7 +3172,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                         ),
                                       ),
                                       Text(
-                                        'PAN Card',
+                                        '',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
