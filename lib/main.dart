@@ -2714,8 +2714,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Background is a light purple tone
-    const bgColor = Color(0xFFF3E8F5);
+    // Neutral light grey page background (matches real app)
+    const bgColor = Color(0xFFE9E7EC);
 
     // Dynamically derived date strings based on the 'Booked On' persistent state.
     String topTicketDate = getTicketBookingDateTime(widget.bookedOn);
@@ -2725,7 +2725,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0052D4), // Darker vibrant blue
+        backgroundColor: const Color(0xFF1557E6), // RailOne vivid blue
         foregroundColor: Colors.white,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -2781,9 +2781,10 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                 children: [
                   // Main background container of the ticket
                   Container(
+                    clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFEEDCF0),
-                      borderRadius: BorderRadius.circular(12),
+                      color: const Color(0xFFEDECEE),
+                      borderRadius: BorderRadius.circular(14),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.05),
@@ -2794,20 +2795,20 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                     ),
                     child: Column(
                       children: [
-                        // --- TOP SECTION (DARK/TIMER) ---
+                        // --- GREEN ROUNDED TOP STRIP ---
                         Container(
+                          height: 14,
+                          margin: const EdgeInsets.symmetric(horizontal: 6),
                           decoration: const BoxDecoration(
-                            color: Color(0xFF2D2E32),
+                            color: Color(0xFFAFD599),
                             borderRadius: BorderRadius.vertical(
                               top: Radius.circular(12),
                             ),
-                            border: Border(
-                              top: BorderSide(
-                                color: Color(0xFF0052D4),
-                                width: 6,
-                              ),
-                            ),
                           ),
+                        ),
+                        // --- TOP SECTION (DARK/TIMER) ---
+                        Container(
+                          color: const Color(0xFF141217),
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: Row(
                             children: [
@@ -2843,8 +2844,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                     Text(
                                       _formattedTime,
                                       style: const TextStyle(
-                                        color: Color(0xFFFF1E1E),
-                                        fontSize: 40,
+                                        color: Color(0xFFEA1B1B),
+                                        fontSize: 44,
                                         fontWeight: FontWeight.bold,
                                         letterSpacing: 2,
                                       ),
@@ -2861,8 +2862,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                     Text(
                                       topTicketDate,
                                       style: const TextStyle(
-                                        color: Color(0xFFFF8C00),
-                                        fontSize: 20,
+                                        color: Color(0xFFF5920A),
+                                        fontSize: 22,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -2919,8 +2920,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                   const Text(
                                     'Season Ticket',
                                     style: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 16,
+                                      color: Color(0xFF2A2A30),
+                                      fontSize: 20,
                                     ),
                                   ),
                                   Text(
@@ -3179,17 +3180,18 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                   ), // Dynamic PAN Card number
                                 ],
                               ),
-                              const SizedBox(height: 16),
-                              // Blue Pill Bottom Bar
-                              Container(
-                                width: double.infinity,
-                                height: 12,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF0052D4),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
                             ],
+                          ),
+                        ),
+                        // --- GREEN ROUNDED BOTTOM STRIP ---
+                        Container(
+                          height: 14,
+                          margin: const EdgeInsets.symmetric(horizontal: 6),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFAFD599),
+                            borderRadius: BorderRadius.vertical(
+                              bottom: Radius.circular(12),
+                            ),
                           ),
                         ),
                       ],
@@ -3233,14 +3235,14 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 16.0),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: const Color(0xFFFFB6C1),
+                color: const Color(0xFFFBE4EF),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text(
                 'Note: This ticket is non refundable. Ticket is stored locally on the device. Please do not change your handset or perform factory reset.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFFD32F2F),
+                  color: Color(0xFFE23B7A),
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
@@ -3305,7 +3307,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 16.0),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: const Color(0xFFEEDCF0),
+                color: const Color(0xFFEDECEE),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Column(
