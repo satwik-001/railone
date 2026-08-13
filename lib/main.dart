@@ -2648,8 +2648,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                         child: Text(
                                           'INDIAN RAILWAYS',
                                           style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: w * 0.030,
+                                            color: const Color(0xFF9E9E9E),
+                                            fontSize: w * 0.042,
                                             fontWeight: FontWeight.w700,
                                             letterSpacing: 1.0,
                                           ),
@@ -2667,8 +2667,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                         child: Text(
                                           'भारतीय रेल',
                                           style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: w * 0.030,
+                                            color: const Color(0xFF9E9E9E),
+                                            fontSize: w * 0.042,
                                             fontWeight: FontWeight.w700,
                                             letterSpacing: 1.0,
                                           ),
@@ -2702,34 +2702,34 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               height: 1.05,
-                                              fontSize: w * 0.052,
+                                              fontSize: w * 0.047,
                                               fontWeight: FontWeight.bold,
                                               fontFamily: 'Technica',
                                             ),
                                           ),
                                         ),
-                                        SizedBox(height: w * 0.052),
+                                        SizedBox(height: w * 0.047),
                                         Text(
                                           _formattedTime,
                                           style: const TextStyle(
                                             color: Color(0xFFEC1C24),
                                             height: 1.0,
                                           ).copyWith(
-                                            fontSize: w * 0.150,
+                                            fontSize: w * 0.135,
                                             fontFamily: 'TGRiota',
                                           ),
                                         ),
-                                        SizedBox(height: w * 0.050),
+                                        SizedBox(height: w * 0.045),
                                         Text(
                                           'Ticket Booking Date & Time',
                                           style: TextStyle(
-                                            color: Colors.white,
+                                            color: const Color(0xFF9E9E9E),
                                             height: 1.0,
-                                            fontSize: w * 0.032,
+                                            fontSize: w * 0.029,
                                             fontFamily: 'Technica',
                                           ),
                                         ),
-                                        SizedBox(height: w * 0.040),
+                                        SizedBox(height: w * 0.036),
                                         FittedBox(
                                           fit: BoxFit.scaleDown,
                                           child: Text(
@@ -2737,27 +2737,27 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                             style: TextStyle(
                                               color: const Color(0xFFFFA21C),
                                               height: 1.0,
-                                              fontSize: w * 0.076,
+                                              fontSize: w * 0.060,
                                               fontFamily: 'AftikaSoft',
                                             ),
                                           ),
                                         ),
-                                        SizedBox(height: w * 0.027),
+                                        SizedBox(height: w * 0.024),
                                         Text(
-                                          widget.refNumber,
+                                          'R27220',
                                           style: TextStyle(
                                             color: Colors.white,
                                             height: 1.0,
-                                            fontSize: w * 0.032,
+                                            fontSize: w * 0.029,
                                           ),
                                         ),
-                                        SizedBox(height: w * 0.025),
+                                        SizedBox(height: w * 0.022),
                                         Text(
                                           'Ticket is Non-Transferable',
                                           style: TextStyle(
                                             color: Colors.white,
                                             height: 1.0,
-                                            fontSize: w * 0.034,
+                                            fontSize: w * 0.031,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -2768,6 +2768,21 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                               ),
                             );
                           },
+                        ),
+                        // --- PROGRESS BAR (green fill grows as timer elapses) ---
+                        Container(
+                          height: 6,
+                          color: const Color(0xFFE6E1EC),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: FractionallySizedBox(
+                              widthFactor: (1 - (_secondsRemaining / 299))
+                                  .clamp(0.0, 1.0),
+                              child: Container(
+                                color: const Color(0xFF6FC96F),
+                              ),
+                            ),
+                          ),
                         ),
 
                         // --- MIDDLE SECTION (JOURNEY DETAILS) ---
