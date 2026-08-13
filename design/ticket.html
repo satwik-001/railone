@@ -8,7 +8,8 @@
   *{margin:0;padding:0;box-sizing:border-box; font-family:'Acherus',sans-serif;}
   body{background:#555;display:flex;justify-content:center;padding:30px;}
   /* ===== SCREEN CANVAS : 1080-wide Android screen ===== */
-  .screen{position:relative;width:1080px;height:2560px;background:#E9E7EC;overflow:hidden;}
+  /* 1080 x 2400 device viewport (20:9); taller content scrolls inside */
+  .screen{position:relative;width:1080px;height:2400px;background:#E9E7EC;overflow-y:auto;overflow-x:hidden;}
 </style>
 </head>
 <body>
