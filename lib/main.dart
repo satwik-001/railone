@@ -2611,155 +2611,160 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                     ),
                     child: Column(
                       children: [
-                        // --- GREEN ROUNDED TOP STRIP ---
+                        // --- GREEN ROUNDED TOP STRIP (full card width) ---
                         Container(
-                          height: 14,
-                          margin: const EdgeInsets.symmetric(horizontal: 6),
+                          height: 16,
                           decoration: const BoxDecoration(
                             color: Color(0xFFAFD599),
                             borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(12),
+                              top: Radius.circular(14),
                             ),
                           ),
                         ),
-                        // --- DYNAMIC PREVIEW CARD (dark diamond panel) ---
+                        // --- DYNAMIC PREVIEW CARD (diamond wallpaper) ---
                         LayoutBuilder(
                           builder: (context, c) {
                             final double w = c.maxWidth;
-                            final double h = w / 1.884;
-                            return SizedBox(
-                              width: w,
-                              height: h,
-                              child: ClipRect(
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Positioned.fill(
-                                      child: CustomPaint(
-                                        painter: HarlequinPainter(),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: w * 0.02,
-                                      top: 0,
-                                      bottom: 0,
-                                      child: Center(
-                                        child: RotatedBox(
-                                          quarterTurns: 3,
-                                          child: Text(
-                                            'INDIAN RAILWAYS',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: w * 0.032,
-                                              fontWeight: FontWeight.w600,
-                                              letterSpacing: 1.2,
-                                            ),
+                            return Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.black,
+                                image: DecorationImage(
+                                  image: AssetImage('assets/home/diamond_bg.jpg'),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: w * 0.03),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Positioned(
+                                    left: w * 0.025,
+                                    top: 0,
+                                    bottom: 0,
+                                    child: Center(
+                                      child: RotatedBox(
+                                        quarterTurns: 3,
+                                        child: Text(
+                                          'INDIAN RAILWAYS',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: w * 0.030,
+                                            fontWeight: FontWeight.w700,
+                                            letterSpacing: 1.0,
                                           ),
                                         ),
                                       ),
                                     ),
-                                    Positioned(
-                                      right: w * 0.02,
-                                      top: 0,
-                                      bottom: 0,
-                                      child: Center(
-                                        child: RotatedBox(
-                                          quarterTurns: 3,
-                                          child: Text(
-                                            'भारतीय रेल',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: w * 0.036,
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                  ),
+                                  Positioned(
+                                    right: w * 0.025,
+                                    top: 0,
+                                    bottom: 0,
+                                    child: Center(
+                                      child: RotatedBox(
+                                        quarterTurns: 3,
+                                        child: Text(
+                                          'भारतीय रेल',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: w * 0.030,
+                                            fontWeight: FontWeight.w700,
+                                            letterSpacing: 1.0,
                                           ),
                                         ),
                                       ),
                                     ),
-                                    Positioned(
-                                      left: w * 0.115,
-                                      top: w * 0.03,
-                                      bottom: w * 0.03,
-                                      width: 1.5,
-                                      child: CustomPaint(painter: VDashPainter()),
-                                    ),
-                                    Positioned(
-                                      right: w * 0.115,
-                                      top: w * 0.03,
-                                      bottom: w * 0.03,
-                                      width: 1.5,
-                                      child: CustomPaint(painter: VDashPainter()),
-                                    ),
-                                    SizedBox(
-                                      width: w * 0.74,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          FittedBox(
-                                            fit: BoxFit.scaleDown,
-                                            child: Text(
-                                              'Dynamic preview will close in',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: w * 0.044,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Technica',
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(height: w * 0.004),
-                                          Text(
-                                            _formattedTime,
-                                            style: TextStyle(
-                                              color: const Color(0xFFEC1C24),
-                                              fontSize: w * 0.135,
-                                              height: 1.0,
-                                              fontFamily: 'TimerFont',
-                                            ),
-                                          ),
-                                          SizedBox(height: w * 0.006),
-                                          Text(
-                                            'Ticket Booking Date & Time',
+                                  ),
+                                  Positioned(
+                                    left: w * 0.115,
+                                    top: w * 0.02,
+                                    bottom: w * 0.02,
+                                    width: 1.5,
+                                    child: CustomPaint(painter: VDashPainter()),
+                                  ),
+                                  Positioned(
+                                    right: w * 0.115,
+                                    top: w * 0.02,
+                                    bottom: w * 0.02,
+                                    width: 1.5,
+                                    child: CustomPaint(painter: VDashPainter()),
+                                  ),
+                                  SizedBox(
+                                    width: w * 0.72,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                            'Dynamic preview will close in',
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: w * 0.038,
+                                              height: 1.05,
+                                              fontSize: w * 0.052,
+                                              fontWeight: FontWeight.bold,
                                               fontFamily: 'Technica',
                                             ),
                                           ),
-                                          SizedBox(height: w * 0.004),
-                                          FittedBox(
-                                            fit: BoxFit.scaleDown,
-                                            child: Text(
-                                              topTicketDate,
-                                              style: TextStyle(
-                                                color: const Color(0xFFFFA21C),
-                                                fontSize: w * 0.066,
-                                                fontFamily: 'AftikaSoft',
-                                              ),
-                                            ),
+                                        ),
+                                        SizedBox(height: w * 0.052),
+                                        Text(
+                                          _formattedTime,
+                                          style: const TextStyle(
+                                            color: Color(0xFFEC1C24),
+                                            height: 1.0,
+                                          ).copyWith(
+                                            fontSize: w * 0.130,
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: 'Technica',
                                           ),
-                                          SizedBox(height: w * 0.006),
-                                          Text(
-                                            widget.refNumber,
+                                        ),
+                                        SizedBox(height: w * 0.050),
+                                        Text(
+                                          'Ticket Booking Date & Time',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            height: 1.0,
+                                            fontSize: w * 0.032,
+                                            fontFamily: 'Technica',
+                                          ),
+                                        ),
+                                        SizedBox(height: w * 0.040),
+                                        FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                            topTicketDate,
                                             style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: w * 0.036,
+                                              color: const Color(0xFFFFA21C),
+                                              height: 1.0,
+                                              fontSize: w * 0.076,
+                                              fontFamily: 'AftikaSoft',
                                             ),
                                           ),
-                                          SizedBox(height: w * 0.002),
-                                          Text(
-                                            'Ticket is Non-Transferable',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: w * 0.042,
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                        ),
+                                        SizedBox(height: w * 0.027),
+                                        Text(
+                                          widget.refNumber,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            height: 1.0,
+                                            fontSize: w * 0.032,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        SizedBox(height: w * 0.025),
+                                        Text(
+                                          'Ticket is Non-Transferable',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            height: 1.0,
+                                            fontSize: w * 0.034,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             );
                           },
