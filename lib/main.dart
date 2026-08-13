@@ -2649,8 +2649,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                           'INDIAN RAILWAYS',
                                           style: TextStyle(
                                             color: const Color(0xFF9E9E9E),
-                                            fontSize: w * 0.042,
-                                            fontWeight: FontWeight.w700,
+                                            fontSize: w * 0.044,
+                                            fontWeight: FontWeight.w800,
                                             letterSpacing: 1.0,
                                           ),
                                         ),
@@ -2668,8 +2668,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                           'भारतीय रेल',
                                           style: TextStyle(
                                             color: const Color(0xFF9E9E9E),
-                                            fontSize: w * 0.048,
-                                            fontWeight: FontWeight.w800,
+                                            fontSize: w * 0.050,
+                                            fontWeight: FontWeight.w900,
                                             letterSpacing: 1.0,
                                           ),
                                         ),
@@ -2678,15 +2678,15 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                   ),
                                   Positioned(
                                     left: w * 0.115,
-                                    top: 0,
-                                    bottom: 0,
+                                    top: -w * 0.03,
+                                    bottom: -w * 0.03,
                                     width: 1.5,
                                     child: CustomPaint(painter: VDashPainter()),
                                   ),
                                   Positioned(
                                     right: w * 0.115,
-                                    top: 0,
-                                    bottom: 0,
+                                    top: -w * 0.03,
+                                    bottom: -w * 0.03,
                                     width: 1.5,
                                     child: CustomPaint(painter: VDashPainter()),
                                   ),
@@ -2709,14 +2709,55 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                           ),
                                         ),
                                         SizedBox(height: w * 0.047),
-                                        Text(
-                                          _formattedTime,
-                                          style: const TextStyle(
-                                            color: Color(0xFFEC1C24),
-                                            height: 1.0,
-                                          ).copyWith(
-                                            fontSize: w * 0.135,
-                                            fontFamily: 'TGRiota',
+                                        SizedBox(
+                                          height: w * 0.15,
+                                          child: ClipRect(
+                                            child: AnimatedSwitcher(
+                                              duration: const Duration(
+                                                milliseconds: 280,
+                                              ),
+                                              switchInCurve: Curves.easeOut,
+                                              switchOutCurve: Curves.easeIn,
+                                              layoutBuilder:
+                                                  (currentChild, prev) => Stack(
+                                                    alignment: Alignment.center,
+                                                    children: [
+                                                      ...prev,
+                                                      if (currentChild != null)
+                                                        currentChild,
+                                                    ],
+                                                  ),
+                                              transitionBuilder: (child, anim) {
+                                                final bool incoming =
+                                                    (child.key
+                                                            as ValueKey<String>)
+                                                        .value ==
+                                                    _formattedTime;
+                                                final Offset begin = incoming
+                                                    ? const Offset(0, -1)
+                                                    : const Offset(0, 1);
+                                                return SlideTransition(
+                                                  position: Tween<Offset>(
+                                                    begin: begin,
+                                                    end: Offset.zero,
+                                                  ).animate(anim),
+                                                  child: child,
+                                                );
+                                              },
+                                              child: Text(
+                                                _formattedTime,
+                                                key: ValueKey<String>(
+                                                  _formattedTime,
+                                                ),
+                                                style: const TextStyle(
+                                                  color: Color(0xFFEC1C24),
+                                                  height: 1.0,
+                                                ).copyWith(
+                                                  fontSize: w * 0.135,
+                                                  fontFamily: 'TGRiota',
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                         SizedBox(height: w * 0.045),
@@ -3243,9 +3284,9 @@ class VDashPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white54
+      ..color = Colors.white
       ..strokeWidth = 1.5;
-    const dash = 9.0, gap = 5.0;
+    const dash = 12.0, gap = 3.0;
     double y = 0;
     final x = size.width / 2;
     while (y < size.height) {
