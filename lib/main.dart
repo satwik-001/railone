@@ -2622,114 +2622,145 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                             ),
                           ),
                         ),
-                        // --- TOP SECTION (DARK/TIMER) ---
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: Color(0xFF141217),
-                            image: DecorationImage(
-                              image: AssetImage('assets/argyle.png'),
-                              repeat: ImageRepeat.repeat,
-                              opacity: 0.5,
-                            ),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: Row(
-                            children: [
-                              // Left Rotated Text
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: RotatedBox(
-                                  quarterTurns: 3,
-                                  child: Text(
-                                    'INDIAN RAILWAYS',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 1.5,
+                        // --- DYNAMIC PREVIEW CARD (dark diamond panel) ---
+                        LayoutBuilder(
+                          builder: (context, c) {
+                            final double w = c.maxWidth;
+                            return Container(
+                              decoration: const BoxDecoration(
+                                color: Color(0xFF120C10),
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    'assets/home/diamond_bg.jpg',
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                vertical: w * 0.05,
+                                horizontal: w * 0.03,
+                              ),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Positioned(
+                                    left: 0,
+                                    top: 0,
+                                    bottom: 0,
+                                    child: Center(
+                                      child: RotatedBox(
+                                        quarterTurns: 3,
+                                        child: Text(
+                                          'INDIAN RAILWAYS',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: w * 0.034,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 1.5,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-
-                              // Center Timer Content
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    const Text(
-                                      'Dynamic preview will close in',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    bottom: 0,
+                                    child: Center(
+                                      child: RotatedBox(
+                                        quarterTurns: 3,
+                                        child: Text(
+                                          'भारतीय रेल',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: w * 0.037,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 1.0,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      _formattedTime,
-                                      style: const TextStyle(
-                                        color: Color(0xFFEA1B1B),
-                                        fontSize: 44,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 2,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 12),
-                                    const Text(
-                                      'Ticket Booking Date & Time',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      topTicketDate,
-                                      style: const TextStyle(
-                                        color: Color(0xFFF5920A),
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ), // DYNAMIC DATE derived from Booked On
-                                    Text(
-                                      widget.refNumber,
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    const Text(
-                                      'Ticket is Non-Transferable',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              // Right Rotated Text
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: RotatedBox(
-                                  quarterTurns: 3,
-                                  child: Text(
-                                    'भारतीय रेल',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 1.5,
                                     ),
                                   ),
-                                ),
+                                  Positioned(
+                                    left: w * 0.115,
+                                    top: w * 0.02,
+                                    bottom: w * 0.02,
+                                    width: 2,
+                                    child: CustomPaint(painter: VDashPainter()),
+                                  ),
+                                  Positioned(
+                                    right: w * 0.115,
+                                    top: w * 0.02,
+                                    bottom: w * 0.02,
+                                    width: 2,
+                                    child: CustomPaint(painter: VDashPainter()),
+                                  ),
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'Dynamic preview will close in',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: w * 0.05,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Technica',
+                                        ),
+                                      ),
+                                      SizedBox(height: w * 0.008),
+                                      Text(
+                                        _formattedTime,
+                                        style: TextStyle(
+                                          color: const Color(0xFFEC1C24),
+                                          fontSize: w * 0.165,
+                                          height: 1.0,
+                                          fontWeight: FontWeight.w800,
+                                          letterSpacing: 1,
+                                          fontFamily: 'TGGlifko',
+                                        ),
+                                      ),
+                                      SizedBox(height: w * 0.012),
+                                      Text(
+                                        'Ticket Booking Date & Time',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: w * 0.043,
+                                          fontFamily: 'Technica',
+                                        ),
+                                      ),
+                                      SizedBox(height: w * 0.006),
+                                      Text(
+                                        topTicketDate,
+                                        style: TextStyle(
+                                          color: const Color(0xFFFFA21C),
+                                          fontSize: w * 0.072,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'AftikaSoft',
+                                        ),
+                                      ),
+                                      SizedBox(height: w * 0.012),
+                                      Text(
+                                        widget.refNumber,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: w * 0.04,
+                                        ),
+                                      ),
+                                      SizedBox(height: w * 0.004),
+                                      Text(
+                                        'Ticket is Non-Transferable',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: w * 0.046,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            );
+                          },
                         ),
 
                         // --- MIDDLE SECTION (JOURNEY DETAILS) ---
@@ -3183,4 +3214,24 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
       ),
     );
   }
+}
+
+
+class VDashPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white70
+      ..strokeWidth = 2;
+    const dash = 5.0, gap = 5.0;
+    double y = 0;
+    final x = size.width / 2;
+    while (y < size.height) {
+      canvas.drawLine(Offset(x, y), Offset(x, y + dash), paint);
+      y += dash + gap;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
