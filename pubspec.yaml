@@ -65,6 +65,13 @@ flutter:
    - assets/ticket_qr.png
    - assets/argyle.png
 
+  fonts:
+    - family: Acherus
+      fonts:
+        - asset: assets/fonts/Acherus-Regular.otf
+        - asset: assets/fonts/Acherus-Italic.otf
+          style: italic
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

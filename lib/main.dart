@@ -19,7 +19,7 @@ class RailOneApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.white,
-        fontFamily: 'Roboto',
+        fontFamily: 'Acherus',
       ),
       home: const LoginScreen(),
     );
@@ -1335,7 +1335,7 @@ class HomeContentScreen extends StatelessWidget {
                   color: Colors.white,
                   fontSize: 36,
                   fontWeight: FontWeight.w900,
-                  fontFamily: 'serif',
+                  fontFamily: 'Acherus',
                 ),
               ),
             ),
@@ -2352,7 +2352,7 @@ class TicketCard extends StatelessWidget {
                 ),
                 RichText(
                   text: TextSpan(
-                    style: const TextStyle(fontSize: 14, fontFamily: 'Roboto'),
+                    style: const TextStyle(fontSize: 14, fontFamily: 'Acherus'),
                     children: [
                       TextSpan(
                         text: '$refLabel ',
