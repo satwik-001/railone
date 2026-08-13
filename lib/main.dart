@@ -2626,6 +2626,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                           builder: (context, c) {
                             final double w = c.maxWidth;
                             return Container(
+                              width: double.infinity,
                               decoration: const BoxDecoration(
                                 color: Colors.black,
                                 image: DecorationImage(
@@ -2714,7 +2715,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                             color: Color(0xFFEC1C24),
                                             height: 1.0,
                                           ).copyWith(
-                                            fontSize: w * 0.130,
+                                            fontSize: w * 0.150,
                                             fontFamily: 'TGRiota',
                                           ),
                                         ),
