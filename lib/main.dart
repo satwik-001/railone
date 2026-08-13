@@ -2668,8 +2668,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                           'भारतीय रेल',
                                           style: TextStyle(
                                             color: const Color(0xFF9E9E9E),
-                                            fontSize: w * 0.042,
-                                            fontWeight: FontWeight.w700,
+                                            fontSize: w * 0.048,
+                                            fontWeight: FontWeight.w800,
                                             letterSpacing: 1.0,
                                           ),
                                         ),
@@ -2678,15 +2678,15 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                   ),
                                   Positioned(
                                     left: w * 0.115,
-                                    top: w * 0.02,
-                                    bottom: w * 0.02,
+                                    top: 0,
+                                    bottom: 0,
                                     width: 1.5,
                                     child: CustomPaint(painter: VDashPainter()),
                                   ),
                                   Positioned(
                                     right: w * 0.115,
-                                    top: w * 0.02,
-                                    bottom: w * 0.02,
+                                    top: 0,
+                                    bottom: 0,
                                     width: 1.5,
                                     child: CustomPaint(painter: VDashPainter()),
                                   ),
@@ -2702,8 +2702,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               height: 1.05,
-                                              fontSize: w * 0.047,
-                                              fontWeight: FontWeight.bold,
+                                              fontSize: w * 0.044,
+                                              fontWeight: FontWeight.w600,
                                               fontFamily: 'Technica',
                                             ),
                                           ),
@@ -2725,7 +2725,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                           style: TextStyle(
                                             color: const Color(0xFF9E9E9E),
                                             height: 1.0,
-                                            fontSize: w * 0.029,
+                                            fontSize: w * 0.032,
                                             fontFamily: 'Technica',
                                           ),
                                         ),
@@ -2737,7 +2737,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                             style: TextStyle(
                                               color: const Color(0xFFFFA21C),
                                               height: 1.0,
-                                              fontSize: w * 0.060,
+                                              fontSize: w * 0.063,
                                               fontFamily: 'AftikaSoft',
                                             ),
                                           ),
@@ -2748,7 +2748,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                           style: TextStyle(
                                             color: Colors.white,
                                             height: 1.0,
-                                            fontSize: w * 0.029,
+                                            fontSize: w * 0.032,
                                           ),
                                         ),
                                         SizedBox(height: w * 0.022),
@@ -2779,7 +2779,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                               widthFactor: (1 - (_secondsRemaining / 299))
                                   .clamp(0.0, 1.0),
                               child: Container(
-                                color: const Color(0xFF6FC96F),
+                                color: const Color(0xFFAFD599),
                               ),
                             ),
                           ),
@@ -3245,7 +3245,7 @@ class VDashPainter extends CustomPainter {
     final paint = Paint()
       ..color = Colors.white54
       ..strokeWidth = 1.5;
-    const dash = 3.0, gap = 4.0;
+    const dash = 9.0, gap = 5.0;
     double y = 0;
     final x = size.width / 2;
     while (y < size.height) {
