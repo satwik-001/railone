@@ -2715,8 +2715,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                             height: 1.0,
                                           ).copyWith(
                                             fontSize: w * 0.130,
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: 'Technica',
+                                            fontFamily: 'TGRiota',
                                           ),
                                         ),
                                         SizedBox(height: w * 0.050),

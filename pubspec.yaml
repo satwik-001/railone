@@ -78,11 +78,9 @@ flutter:
     - family: TGGlifko
       fonts:
         - asset: assets/fonts/TGGlifko-ExtraBold.otf
-    # TimerFont: clean stand-in for the timer digits (TG Glifko demo watermarks
-    # numerals). Swap this asset for the full licensed TG Glifko when available.
-    - family: TimerFont
+    - family: TGRiota
       fonts:
-        - asset: assets/fonts/AftikaSoft-ExtraBold.otf
+        - asset: assets/fonts/TGRiotaGothic-Bold.ttf
     - family: Technica
       fonts:
         - asset: assets/fonts/Technica-Regular.otf
