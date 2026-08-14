@@ -2772,7 +2772,12 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            _slideDigits(_mm, w),
+                                            _RollingDigits(
+                                              value: _mm,
+                                              width: w * 0.185,
+                                              height: w * 0.15,
+                                              fontSize: w * 0.135,
+                                            ),
                                             Text(
                                               ':',
                                               style: const TextStyle(
@@ -2783,7 +2788,12 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                                 fontFamily: 'TGRiota',
                                               ),
                                             ),
-                                            _slideDigits(_ss, w),
+                                            _RollingDigits(
+                                              value: _ss,
+                                              width: w * 0.185,
+                                              height: w * 0.15,
+                                              fontSize: w * 0.135,
+                                            ),
                                           ],
                                         ),
                                         SizedBox(height: w * 0.045),
@@ -3066,7 +3076,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                   // ================= INDENTED TICKET CUTOUT OVERLAYS =================
                   // Creates semi-circle indent look using overlays.
                   Positioned(
-                    bottom: 80,
+                    bottom: 58,
                     left: -24,
                     child: Container(
                       width: 48,
@@ -3078,7 +3088,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                     ),
                   ),
                   Positioned(
-                    bottom: 80,
+                    bottom: 58,
                     right: -24,
                     child: Container(
                       width: 48,
@@ -3107,8 +3117,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                 'Note: This ticket is non refundable. Ticket is stored locally on the device. Please do not change your handset or perform factory reset.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFFE5322E),
-                  fontSize: 12,
+                  color: Color(0xFFF01818),
+                  fontSize: 15,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -3174,15 +3184,11 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
 
             const SizedBox(height: 24),
 
-            // Do you know? card
+            // Do you know? -> full-width white card
             Container(
               width: double.infinity,
-              margin: const EdgeInsets.symmetric(horizontal: 16.0),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: const Color(0xFFEDECEE),
-                borderRadius: BorderRadius.circular(12),
-              ),
+              color: Colors.white,
+              padding: const EdgeInsets.all(20),
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -3283,4 +3289,93 @@ class HarlequinPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+// Odometer-style rolling digits: on change, the new value slides down from the
+// top (already rendered) while the old value slides down and out the bottom.
+class _RollingDigits extends StatefulWidget {
+  final String value;
+  final double width;
+  final double height;
+  final double fontSize;
+  const _RollingDigits({
+    required this.value,
+    required this.width,
+    required this.height,
+    required this.fontSize,
+  });
+
+  @override
+  State<_RollingDigits> createState() => _RollingDigitsState();
+}
+
+class _RollingDigitsState extends State<_RollingDigits>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _c;
+  late String _current;
+  late String _previous;
+
+  @override
+  void initState() {
+    super.initState();
+    _current = widget.value;
+    _previous = widget.value;
+    _c = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 550),
+    );
+  }
+
+  @override
+  void didUpdateWidget(covariant _RollingDigits old) {
+    super.didUpdateWidget(old);
+    if (widget.value != _current) {
+      _previous = _current;
+      _current = widget.value;
+      _c.forward(from: 0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  Widget _cell(String s) => SizedBox(
+    width: widget.width,
+    height: widget.height,
+    child: Center(
+      child: Text(
+        s,
+        style: const TextStyle(
+          color: Color(0xFFEC1C24),
+          height: 1.0,
+        ).copyWith(fontSize: widget.fontSize, fontFamily: 'TGRiota'),
+      ),
+    ),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: widget.width,
+      height: widget.height,
+      child: ClipRect(
+        child: AnimatedBuilder(
+          animation: _c,
+          builder: (context, _) {
+            final double t = Curves.easeInOutCubic.transform(_c.value);
+            final double dy = (t - 1) * widget.height; // -height -> 0
+            return Transform.translate(
+              offset: Offset(0, dy),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [_cell(_current), _cell(_previous)],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
 }

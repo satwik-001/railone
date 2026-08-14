@@ -56,7 +56,8 @@ flutter_native_splash:
   color: "#000000"
   image: assets/app_icon.png
   android_12:
-    image: assets/app_icon.png
+    image: assets/app_icon_fg.png
+    icon_background_color: "#0C6DFF"
     color: "#000000"
 
   # The "flutter_lints" package below contains a set of recommended lints to
