@@ -103,6 +103,9 @@ flutter:
     - family: Montserrat
       fonts:
         - asset: assets/fonts/Montserrat-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Montserrat-Bold.ttf
+          weight: 700
     - family: Technica
       fonts:
         - asset: assets/fonts/Technica-Regular.otf

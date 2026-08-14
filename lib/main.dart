@@ -3015,9 +3015,10 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                             style: TextStyle(
                                               color: const Color(0xFFFFA21C),
                                               height: 1.0,
-                                              fontSize: w * 0.066,
+                                              fontSize: w * 0.072,
                                               fontFamily: 'Montserrat',
-                                              letterSpacing: -1.5,
+                                              fontWeight: FontWeight.w700,
+                                              letterSpacing: -1.0,
                                             ),
                                           ),
                                         ),
