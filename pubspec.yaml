@@ -100,6 +100,9 @@ flutter:
     - family: TGRiota
       fonts:
         - asset: assets/fonts/TGRiotaGothic-Bold.ttf
+    - family: Gontserrat
+      fonts:
+        - asset: assets/fonts/Gontserrat-SemiBold.ttf
     - family: Technica
       fonts:
         - asset: assets/fonts/Technica-Regular.otf
