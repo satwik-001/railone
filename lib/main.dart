@@ -38,6 +38,21 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isBiometricEnabled = false;
+  String _firstName = 'Debmalya';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadName();
+  }
+
+  Future<void> _loadName() async {
+    final prefs = await SharedPreferences.getInstance();
+    final name = prefs.getString('global_user_name') ?? '';
+    if (name.trim().isNotEmpty) {
+      setState(() => _firstName = name.trim().split(' ').first);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +97,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const Text(
-                    'Welcome Debmalya!',
-                    style: TextStyle(fontSize: 16, color: Color(0xFF64748B)),
+                  Text(
+                    'Welcome $_firstName!',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Color(0xFF64748B),
+                    ),
                   ),
                   const SizedBox(height: 24),
                   const Text(
@@ -258,7 +276,7 @@ class _MainScreenState extends State<MainScreen> {
   // These variables hold the app's dynamic data.
   // Their default values are used only on the very first app launch.
   String _globalUserName = 'Debmalya';
-  String _ticketType = 'MONTHLY';
+  String _ticketType = 'Journey';
   String _fromLocation = 'CHANDAN NAGAR';
   String _toLocation = 'BIDHANNAGAR ROAD';
   String _distance = '— 36 km —';
@@ -267,9 +285,17 @@ class _MainScreenState extends State<MainScreen> {
   // New States added
   String _bookedOn = '23/03/2026 18:35';
   String _panCard = 'CRMPC3965M';
-  String _viaStation = 'BLY-BLYH';
+  String _viaStation = '-';
   String _age = '51';
   String _mobileNumber = '9874755795';
+
+  // Journey-ticket configurable fields
+  String _utsNumber = 'XEMBEBH037';
+  String _rRef = 'R27220';
+  String _passenger = '1 Adult, 0 Child';
+  String _validTill = '23/03/2026 19:35';
+  String _classLine = 'FIRST | AC-EMU | JOURNEY | ₹ 40.00';
+  String _irNumber = 'IR:19AAAGM0289C1ZG';
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -300,6 +326,12 @@ class _MainScreenState extends State<MainScreen> {
   static const String _keyViaStation = 'via_station';
   static const String _keyAge = 'age';
   static const String _keyMobileNumber = 'mobile_number';
+  static const String _keyUts = 'uts_number';
+  static const String _keyRRef = 'r_ref';
+  static const String _keyPassenger = 'passenger';
+  static const String _keyValidTill = 'valid_till';
+  static const String _keyClassLine = 'class_line';
+  static const String _keyIrNumber = 'ir_number';
 
   // Loads saved data from SharedPreferences, providing fallback default values
   void _loadSavedData() {
@@ -315,6 +347,12 @@ class _MainScreenState extends State<MainScreen> {
       _viaStation = _prefs.getString(_keyViaStation) ?? _viaStation;
       _age = _prefs.getString(_keyAge) ?? _age;
       _mobileNumber = _prefs.getString(_keyMobileNumber) ?? _mobileNumber;
+      _utsNumber = _prefs.getString(_keyUts) ?? _utsNumber;
+      _rRef = _prefs.getString(_keyRRef) ?? _rRef;
+      _passenger = _prefs.getString(_keyPassenger) ?? _passenger;
+      _validTill = _prefs.getString(_keyValidTill) ?? _validTill;
+      _classLine = _prefs.getString(_keyClassLine) ?? _classLine;
+      _irNumber = _prefs.getString(_keyIrNumber) ?? _irNumber;
     });
   }
 
@@ -334,42 +372,70 @@ class _MainScreenState extends State<MainScreen> {
     _prefs.setString(_keyUserName, newName); // Save
   }
 
-  // Updated save function to receive all 10 dynamic fields and persist them.
-  void _updateTicketData(
-    String type,
-    String from,
-    String to,
-    String dist,
-    String date,
-    String bookedOn,
-    String pan,
-    String via,
-    String age,
-    String mobile,
-  ) {
+  // Save all configurable fields (from the Modify Ticket page) and persist.
+  void _updateTicketData(Map<String, String> d) {
     setState(() {
-      _ticketType = type;
-      _fromLocation = from;
-      _toLocation = to;
-      _distance = dist;
-      _bookingDate = date;
-      _bookedOn = bookedOn;
-      _panCard = pan;
-      _viaStation = via;
-      _age = age;
-      _mobileNumber = mobile;
+      _globalUserName = d['name'] ?? _globalUserName;
+      _ticketType = d['type'] ?? _ticketType;
+      _utsNumber = d['uts'] ?? _utsNumber;
+      _rRef = d['rref'] ?? _rRef;
+      _fromLocation = d['from'] ?? _fromLocation;
+      _toLocation = d['to'] ?? _toLocation;
+      _distance = d['dist'] ?? _distance;
+      _bookingDate = d['bookingDate'] ?? _bookingDate;
+      _bookedOn = d['bookedOn'] ?? _bookedOn;
+      _validTill = d['validTill'] ?? _validTill;
+      _viaStation = d['via'] ?? _viaStation;
+      _passenger = d['passenger'] ?? _passenger;
+      _classLine = d['classLine'] ?? _classLine;
+      _irNumber = d['ir'] ?? _irNumber;
+      _panCard = d['pan'] ?? _panCard;
+      _age = d['age'] ?? _age;
+      _mobileNumber = d['mobile'] ?? _mobileNumber;
     });
-    // Persist all the new data
-    _prefs.setString(_keyTicketType, type);
-    _prefs.setString(_keyFromLocation, from);
-    _prefs.setString(_keyToLocation, to);
-    _prefs.setString(_keyDistance, dist);
-    _prefs.setString(_keyBookingDate, date);
-    _prefs.setString(_keyBookedOn, bookedOn);
-    _prefs.setString(_keyPanCard, pan);
-    _prefs.setString(_keyViaStation, via);
-    _prefs.setString(_keyAge, age);
-    _prefs.setString(_keyMobileNumber, mobile);
+    _prefs.setString(_keyUserName, _globalUserName);
+    _prefs.setString(_keyTicketType, _ticketType);
+    _prefs.setString(_keyUts, _utsNumber);
+    _prefs.setString(_keyRRef, _rRef);
+    _prefs.setString(_keyFromLocation, _fromLocation);
+    _prefs.setString(_keyToLocation, _toLocation);
+    _prefs.setString(_keyDistance, _distance);
+    _prefs.setString(_keyBookingDate, _bookingDate);
+    _prefs.setString(_keyBookedOn, _bookedOn);
+    _prefs.setString(_keyValidTill, _validTill);
+    _prefs.setString(_keyViaStation, _viaStation);
+    _prefs.setString(_keyPassenger, _passenger);
+    _prefs.setString(_keyClassLine, _classLine);
+    _prefs.setString(_keyIrNumber, _irNumber);
+    _prefs.setString(_keyPanCard, _panCard);
+    _prefs.setString(_keyAge, _age);
+    _prefs.setString(_keyMobileNumber, _mobileNumber);
+  }
+
+  // Book Again: set booked-on to the current date/time; valid-till = +1 hour.
+  void _bookAgain() {
+    final now = DateTime.now();
+    String p2(int n) => n.toString().padLeft(2, '0');
+    const mons = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    ];
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    final vt = now.add(const Duration(hours: 1));
+    final booked =
+        '${p2(now.day)}/${p2(now.month)}/${now.year} ${p2(now.hour)}:${p2(now.minute)}';
+    final validTill =
+        '${p2(vt.day)}/${p2(vt.month)}/${vt.year} ${p2(vt.hour)}:${p2(vt.minute)}';
+    final bookingDate =
+        '${days[now.weekday - 1]}, ${now.day} ${mons[now.month - 1]} ${p2(now.year % 100)}';
+    setState(() {
+      _bookedOn = booked;
+      _validTill = validTill;
+      _bookingDate = bookingDate;
+    });
+    _prefs.setString(_keyBookedOn, booked);
+    _prefs.setString(_keyValidTill, validTill);
+    _prefs.setString(_keyBookingDate, bookingDate);
   }
 
   @override
@@ -441,6 +507,13 @@ class _MainScreenState extends State<MainScreen> {
                       viaStation: _viaStation,
                       age: _age,
                       mobileNumber: _mobileNumber,
+                      utsNumber: _utsNumber,
+                      rRef: _rRef,
+                      passenger: _passenger,
+                      validTill: _validTill,
+                      classLine: _classLine,
+                      irNumber: _irNumber,
+                      onBookAgain: _bookAgain,
                     ),
                   ),
                 );
@@ -638,14 +711,21 @@ class _MainScreenState extends State<MainScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ShowHideServicesScreen(
+                            currentName: _globalUserName,
                             currentType: _ticketType,
+                            currentUts: _utsNumber,
+                            currentRRef: _rRef,
                             currentFrom: _fromLocation,
                             currentTo: _toLocation,
                             currentDistance: _distance,
                             currentDate: _bookingDate,
                             currentBookedOn: _bookedOn,
+                            currentValidTill: _validTill,
                             currentPanCard: _panCard,
                             currentVia: _viaStation,
+                            currentPassenger: _passenger,
+                            currentClassLine: _classLine,
+                            currentIrNumber: _irNumber,
                             currentAge: _age,
                             currentMobile: _mobileNumber,
                             onSave: _updateTicketData,
@@ -725,41 +805,43 @@ class _MainScreenState extends State<MainScreen> {
 // SHOW/HIDE SERVICES (Configuration Panel)
 // ==========================================
 class ShowHideServicesScreen extends StatefulWidget {
-  final String currentType,
+  final String currentName,
+      currentType,
+      currentUts,
+      currentRRef,
       currentFrom,
       currentTo,
-      currentDistance,
-      currentDate;
-  final String currentBookedOn,
+      currentDistance;
+  final String currentDate,
+      currentBookedOn,
+      currentValidTill,
       currentPanCard,
       currentVia,
+      currentPassenger,
+      currentClassLine,
+      currentIrNumber,
       currentAge,
       currentMobile;
-  // This callback accepts all 10 dynamic fields to pass them back to the parent global state.
-  final Function(
-    String,
-    String,
-    String,
-    String,
-    String,
-    String,
-    String,
-    String,
-    String,
-    String,
-  )
-  onSave;
+  // This callback accepts all dynamic fields as a keyed map to pass back to the parent global state.
+  final Function(Map<String, String>) onSave;
 
   const ShowHideServicesScreen({
     super.key,
+    required this.currentName,
     required this.currentType,
+    required this.currentUts,
+    required this.currentRRef,
     required this.currentFrom,
     required this.currentTo,
     required this.currentDistance,
     required this.currentDate,
     required this.currentBookedOn,
+    required this.currentValidTill,
     required this.currentPanCard,
     required this.currentVia,
+    required this.currentPassenger,
+    required this.currentClassLine,
+    required this.currentIrNumber,
     required this.currentAge,
     required this.currentMobile,
     required this.onSave,
@@ -770,15 +852,22 @@ class ShowHideServicesScreen extends StatefulWidget {
 }
 
 class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
-  // Input controllers for each of the 10 dynamic fields
-  late TextEditingController _typeController,
+  // Input controllers for each dynamic field
+  late TextEditingController _nameController,
+      _typeController,
+      _utsController,
+      _rRefController,
       _fromController,
       _toController,
-      _distanceController,
-      _dateController;
-  late TextEditingController _bookedOnController,
+      _distanceController;
+  late TextEditingController _dateController,
+      _bookedOnController,
+      _validTillController,
       _panController,
       _viaController,
+      _passengerController,
+      _classLineController,
+      _irController,
       _ageController,
       _mobileController;
 
@@ -786,14 +875,21 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
   void initState() {
     super.initState();
     // Initialize each controller with its corresponding current value passed from MainScreen
+    _nameController = TextEditingController(text: widget.currentName);
     _typeController = TextEditingController(text: widget.currentType);
+    _utsController = TextEditingController(text: widget.currentUts);
+    _rRefController = TextEditingController(text: widget.currentRRef);
     _fromController = TextEditingController(text: widget.currentFrom);
     _toController = TextEditingController(text: widget.currentTo);
     _distanceController = TextEditingController(text: widget.currentDistance);
     _dateController = TextEditingController(text: widget.currentDate);
     _bookedOnController = TextEditingController(text: widget.currentBookedOn);
+    _validTillController = TextEditingController(text: widget.currentValidTill);
     _panController = TextEditingController(text: widget.currentPanCard);
     _viaController = TextEditingController(text: widget.currentVia);
+    _passengerController = TextEditingController(text: widget.currentPassenger);
+    _classLineController = TextEditingController(text: widget.currentClassLine);
+    _irController = TextEditingController(text: widget.currentIrNumber);
     _ageController = TextEditingController(text: widget.currentAge);
     _mobileController = TextEditingController(text: widget.currentMobile);
   }
@@ -801,14 +897,21 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
   @override
   void dispose() {
     // Dispose all controllers to free up resources
+    _nameController.dispose();
     _typeController.dispose();
+    _utsController.dispose();
+    _rRefController.dispose();
     _fromController.dispose();
     _toController.dispose();
     _distanceController.dispose();
     _dateController.dispose();
     _bookedOnController.dispose();
+    _validTillController.dispose();
     _panController.dispose();
     _viaController.dispose();
+    _passengerController.dispose();
+    _classLineController.dispose();
+    _irController.dispose();
     _ageController.dispose();
     _mobileController.dispose();
     super.dispose();
@@ -840,8 +943,16 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
             ),
             const SizedBox(height: 24),
 
+            // Identity
+            _buildInputField('Passenger Name', _nameController),
+            const SizedBox(height: 16),
+
             // Basic Info
             _buildInputField('Ticket Type', _typeController),
+            const SizedBox(height: 16),
+            _buildInputField('UTS Number', _utsController),
+            const SizedBox(height: 16),
+            _buildInputField('Ticket Reference (e.g. R27220)', _rRefController),
             const SizedBox(height: 16),
             _buildInputField('From Location', _fromController),
             const SizedBox(height: 16),
@@ -863,6 +974,19 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
               _bookedOnController,
             ),
             const SizedBox(height: 16),
+            _buildInputField(
+              'Valid Till (e.g. 23/03/2026 19:35)',
+              _validTillController,
+            ),
+            const SizedBox(height: 16),
+
+            // Ticket meta
+            _buildInputField('Passenger Details', _passengerController),
+            const SizedBox(height: 16),
+            _buildInputField('Class Line', _classLineController),
+            const SizedBox(height: 16),
+            _buildInputField('IR Number', _irController),
+            const SizedBox(height: 16),
 
             // Personal Info
             _buildInputField('PAN Card ID Number', _panController),
@@ -877,20 +1001,27 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  // Pass all 10 update strings back via the callback.
+                  // Pass all update strings back via the callback as a keyed map.
                   // MainScreen's function will pick this up and persist it.
-                  widget.onSave(
-                    _typeController.text,
-                    _fromController.text,
-                    _toController.text,
-                    _distanceController.text,
-                    _dateController.text,
-                    _bookedOnController.text,
-                    _panController.text,
-                    _viaController.text,
-                    _ageController.text,
-                    _mobileController.text,
-                  );
+                  widget.onSave({
+                    'name': _nameController.text,
+                    'type': _typeController.text,
+                    'uts': _utsController.text,
+                    'rref': _rRefController.text,
+                    'from': _fromController.text,
+                    'to': _toController.text,
+                    'dist': _distanceController.text,
+                    'bookingDate': _dateController.text,
+                    'bookedOn': _bookedOnController.text,
+                    'validTill': _validTillController.text,
+                    'via': _viaController.text,
+                    'passenger': _passengerController.text,
+                    'classLine': _classLineController.text,
+                    'ir': _irController.text,
+                    'pan': _panController.text,
+                    'age': _ageController.text,
+                    'mobile': _mobileController.text,
+                  });
                   Navigator.pop(context); // Go back one screen
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -1211,6 +1342,8 @@ class MyBookingsScreen extends StatefulWidget {
       distance,
       bookingDate;
   final String bookedOn, panCard, viaStation, age, mobileNumber;
+  final String utsNumber, rRef, passenger, validTill, classLine, irNumber;
+  final VoidCallback onBookAgain;
 
   const MyBookingsScreen({
     super.key,
@@ -1225,6 +1358,13 @@ class MyBookingsScreen extends StatefulWidget {
     required this.viaStation,
     required this.age,
     required this.mobileNumber,
+    required this.utsNumber,
+    required this.rRef,
+    required this.passenger,
+    required this.validTill,
+    required this.classLine,
+    required this.irNumber,
+    required this.onBookAgain,
   });
 
   @override
@@ -1346,7 +1486,7 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
               userName: widget.userName,
               ticketStatus: 'Unreserved',
               refLabel: 'UTS:',
-              refNumber: 'XEMBEBH037',
+              refNumber: widget.utsNumber,
               leftLabel: 'Ticket Type',
               leftValue: widget.ticketType,
               rightLabel: 'Booking Date',
@@ -1362,6 +1502,13 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
               mobileNumber: widget.mobileNumber,
               borderColor: const Color(0xFFF57C00),
               bookAgainBlue: false,
+              utsNumber: widget.utsNumber,
+              rRef: widget.rRef,
+              passenger: widget.passenger,
+              validTill: widget.validTill,
+              classLine: widget.classLine,
+              irNumber: widget.irNumber,
+              onBookAgain: widget.onBookAgain,
             ),
           ],
         ),
@@ -2091,6 +2238,8 @@ class TicketCard extends StatelessWidget {
   final String fromStation, toStation, durationOrDistance;
   // Dynamic fields from persistence
   final String bookedOn, panCard, viaStation, age, mobileNumber;
+  final String? utsNumber, rRef, passenger, validTill, classLine, irNumber;
+  final VoidCallback? onBookAgain;
   final Color borderColor;
   final bool bookAgainBlue;
 
@@ -2115,6 +2264,13 @@ class TicketCard extends StatelessWidget {
     required this.mobileNumber,
     required this.borderColor,
     required this.bookAgainBlue,
+    this.utsNumber,
+    this.rRef,
+    this.passenger,
+    this.validTill,
+    this.classLine,
+    this.irNumber,
+    this.onBookAgain,
   });
 
   @override
@@ -2256,7 +2412,21 @@ class TicketCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: onBookAgain == null
+                        ? () {}
+                        : () {
+                            onBookAgain!();
+                            Navigator.of(
+                              context,
+                            ).popUntil((r) => r.isFirst);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Ticket re-booked for the current date & time.',
+                                ),
+                              ),
+                            );
+                          },
                     child: Text(
                       'Book Again',
                       style: TextStyle(
@@ -2283,6 +2453,13 @@ class TicketCard extends StatelessWidget {
                             distance: durationOrDistance,
                             bookingDate: rightValue,
                             refNumber: refNumber,
+                            rRef: rRef ?? 'R27220',
+                            passenger: passenger ?? '1 Adult, 0 Child',
+                            validTill: validTill ?? '',
+                            classLine:
+                                classLine ??
+                                'FIRST | AC-EMU | JOURNEY | ₹ 40.00',
+                            irNumber: irNumber ?? 'IR:19AAAGM0289C1ZG',
                             bookedOn: bookedOn,
                             panCard: panCard,
                             viaStation: viaStation,
@@ -2416,6 +2593,7 @@ class BookingDetailsScreen extends StatefulWidget {
       bookingDate,
       refNumber;
   final String bookedOn, panCard, viaStation, age, mobileNumber;
+  final String rRef, passenger, validTill, classLine, irNumber;
 
   const BookingDetailsScreen({
     super.key,
@@ -2431,6 +2609,11 @@ class BookingDetailsScreen extends StatefulWidget {
     required this.viaStation,
     required this.age,
     required this.mobileNumber,
+    required this.rRef,
+    required this.passenger,
+    required this.validTill,
+    required this.classLine,
+    required this.irNumber,
   });
 
   @override
@@ -2582,7 +2765,6 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
     String topTicketDate = getTicketBookingDateTime(widget.bookedOn);
     String validFromDate = widget.bookedOn.split(' ')[0]; // Just the date part
     String validTillDate = getValidTill(widget.bookedOn); // Next day calculated
-    String journeyValidTill = getJourneyValidTill(widget.bookedOn);
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -2811,7 +2993,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                         ),
                                         SizedBox(height: w * 0.024),
                                         Text(
-                                          'R27220',
+                                          widget.rRef,
                                           style: TextStyle(
                                             color: Colors.white,
                                             height: 1.0,
@@ -2862,9 +3044,9 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text(
-                                    'Journey Ticket',
-                                    style: TextStyle(
+                                  Text(
+                                    '${widget.ticketType} Ticket',
+                                    style: const TextStyle(
                                       color: Color(0xFF2A2A30),
                                       fontSize: 20,
                                     ),
@@ -2918,13 +3100,13 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                               ),
                               const SizedBox(height: 20),
                               Row(
-                                children: const [
+                                children: [
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
+                                        const Text(
                                           'Via',
                                           style: TextStyle(
                                             color: Colors.black54,
@@ -2933,8 +3115,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                         ),
                                         SizedBox(height: 2),
                                         Text(
-                                          '-',
-                                          style: TextStyle(
+                                          widget.viaStation,
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -2946,17 +3128,17 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.end,
                                       children: [
-                                        Text(
+                                        const Text(
                                           'Passenger',
                                           style: TextStyle(
                                             color: Colors.black54,
                                             fontSize: 12,
                                           ),
                                         ),
-                                        SizedBox(height: 2),
+                                        const SizedBox(height: 2),
                                         Text(
-                                          '1 Adult, 0 Child',
-                                          style: TextStyle(
+                                          widget.passenger,
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -3004,7 +3186,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                         ),
                                         const SizedBox(height: 2),
                                         Text(
-                                          journeyValidTill,
+                                          widget.validTill,
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -3015,18 +3197,18 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                 ],
                               ),
                               const SizedBox(height: 20),
-                              const Text(
-                                'FIRST | AC-EMU | JOURNEY | ₹ 40.00',
-                                style: TextStyle(
+                              Text(
+                                widget.classLine,
+                                style: const TextStyle(
                                   color: Colors.black54,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               const SizedBox(height: 6),
-                              const Text(
-                                'IR:19AAAGM0289C1ZG',
-                                style: TextStyle(
+                              Text(
+                                widget.irNumber,
+                                style: const TextStyle(
                                   color: Colors.black54,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
