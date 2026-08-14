@@ -14,7 +14,7 @@ class RailOneApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'RailOne',
+      title: 'Rail0ne',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -413,7 +413,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   // Book Again: set booked-on to the current date/time; valid-till = +1 hour.
-  void _bookAgain() {
+  // Returns the freshly computed values so the caller can show the ticket.
+  Map<String, String> _bookAgain() {
     final now = DateTime.now();
     String p2(int n) => n.toString().padLeft(2, '0');
     const mons = [
@@ -436,6 +437,11 @@ class _MainScreenState extends State<MainScreen> {
     _prefs.setString(_keyBookedOn, booked);
     _prefs.setString(_keyValidTill, validTill);
     _prefs.setString(_keyBookingDate, bookingDate);
+    return {
+      'bookedOn': booked,
+      'validTill': validTill,
+      'bookingDate': bookingDate,
+    };
   }
 
   @override
@@ -1343,7 +1349,7 @@ class MyBookingsScreen extends StatefulWidget {
       bookingDate;
   final String bookedOn, panCard, viaStation, age, mobileNumber;
   final String utsNumber, rRef, passenger, validTill, classLine, irNumber;
-  final VoidCallback onBookAgain;
+  final Map<String, String> Function() onBookAgain;
 
   const MyBookingsScreen({
     super.key,
@@ -2239,7 +2245,7 @@ class TicketCard extends StatelessWidget {
   // Dynamic fields from persistence
   final String bookedOn, panCard, viaStation, age, mobileNumber;
   final String? utsNumber, rRef, passenger, validTill, classLine, irNumber;
-  final VoidCallback? onBookAgain;
+  final Map<String, String> Function()? onBookAgain;
   final Color borderColor;
   final bool bookAgainBlue;
 
@@ -2415,10 +2421,33 @@ class TicketCard extends StatelessWidget {
                     onPressed: onBookAgain == null
                         ? () {}
                         : () {
-                            onBookAgain!();
-                            Navigator.of(
+                            final d = onBookAgain!();
+                            Navigator.push(
                               context,
-                            ).popUntil((r) => r.isFirst);
+                              MaterialPageRoute(
+                                builder: (context) => BookingDetailsScreen(
+                                  userName: userName,
+                                  ticketType: leftValue,
+                                  fromLocation: fromStation,
+                                  toLocation: toStation,
+                                  distance: durationOrDistance,
+                                  bookingDate: d['bookingDate'] ?? rightValue,
+                                  refNumber: refNumber,
+                                  rRef: rRef ?? 'R27220',
+                                  passenger: passenger ?? '1 Adult, 0 Child',
+                                  validTill: d['validTill'] ?? validTill ?? '',
+                                  classLine:
+                                      classLine ??
+                                      'FIRST | AC-EMU | JOURNEY | ₹ 40.00',
+                                  irNumber: irNumber ?? 'IR:19AAAGM0289C1ZG',
+                                  bookedOn: d['bookedOn'] ?? bookedOn,
+                                  panCard: panCard,
+                                  viaStation: viaStation,
+                                  age: age,
+                                  mobileNumber: mobileNumber,
+                                ),
+                              ),
+                            );
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text(
