@@ -277,7 +277,7 @@ class _MainScreenState extends State<MainScreen> {
   // Their default values are used only on the very first app launch.
   String _globalUserName = 'Debmalya';
   String _ticketType = 'Journey';
-  String _fromLocation = 'CHANDAN NAGAR';
+  String _fromLocation = 'KHARDAHA';
   String _toLocation = 'BIDHANNAGAR ROAD';
   String _distance = '— 36 km —';
   String _bookingDate = 'Mon, 23 Mar 26';
@@ -1053,10 +1053,84 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
                 ),
               ),
             ),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: OutlinedButton(
+                onPressed: () {
+                  // Revert every field to its factory default and apply it.
+                  setState(_fillDefaults);
+                  widget.onSave(_defaults);
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Ticket reverted to default values.'),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color(0xFF0066FF),
+                  side: const BorderSide(color: Color(0xFF0066FF), width: 1.5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text(
+                  'Reset to Default',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  // Factory default values for every configurable field.
+  static const Map<String, String> _defaults = {
+    'name': 'Debmalya',
+    'type': 'Journey',
+    'uts': 'XEMBEBH037',
+    'rref': 'R27220',
+    'from': 'KHARDAHA',
+    'to': 'BIDHANNAGAR ROAD',
+    'dist': '— 36 km —',
+    'bookingDate': 'Mon, 23 Mar 26',
+    'bookedOn': '23/03/2026 18:35',
+    'validTill': '23/03/2026 19:35',
+    'via': '-',
+    'passenger': '1 Adult, 0 Child',
+    'classLine': 'FIRST | AC-EMU | JOURNEY | ₹ 40.00',
+    'ir': 'IR:19AAAGM0289C1ZG',
+    'pan': 'CRMPC3965M',
+    'age': '51',
+    'mobile': '9874755795',
+  };
+
+  // Repopulate every field with its factory default.
+  void _fillDefaults() {
+    _nameController.text = _defaults['name']!;
+    _typeController.text = _defaults['type']!;
+    _utsController.text = _defaults['uts']!;
+    _rRefController.text = _defaults['rref']!;
+    _fromController.text = _defaults['from']!;
+    _toController.text = _defaults['to']!;
+    _distanceController.text = _defaults['dist']!;
+    _dateController.text = _defaults['bookingDate']!;
+    _bookedOnController.text = _defaults['bookedOn']!;
+    _validTillController.text = _defaults['validTill']!;
+    _viaController.text = _defaults['via']!;
+    _passengerController.text = _defaults['passenger']!;
+    _classLineController.text = _defaults['classLine']!;
+    _irController.text = _defaults['ir']!;
+    _panController.text = _defaults['pan']!;
+    _ageController.text = _defaults['age']!;
+    _mobileController.text = _defaults['mobile']!;
   }
 
   Widget _buildInputField(String label, TextEditingController controller) {
@@ -3003,7 +3077,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                           style: TextStyle(
                                             color: const Color(0xFF9E9E9E),
                                             height: 1.0,
-                                            fontSize: w * 0.032,
+                                            fontSize: w * 0.040,
                                             fontFamily: 'Technica',
                                           ),
                                         ),
