@@ -275,19 +275,19 @@ class _MainScreenState extends State<MainScreen> {
   // ================= GLOBAL STATES =================
   // These variables hold the app's dynamic data.
   // Their default values are used only on the very first app launch.
-  String _globalUserName = 'Debmalya';
+  String _globalUserName = 'Satwik Basu';
   String _ticketType = 'Journey';
   String _fromLocation = 'KHARDAHA';
   String _toLocation = 'BIDHANNAGAR ROAD';
-  String _distance = '— 36 km —';
+  String _distance = '— 15 km —';
   String _bookingDate = 'Mon, 23 Mar 26';
 
   // New States added
   String _bookedOn = '23/03/2026 18:35';
-  String _panCard = 'CRMPC3965M';
+  String _panCard = 'FEBPB9849K';
   String _viaStation = '-';
-  String _age = '51';
-  String _mobileNumber = '9874755795';
+  String _age = '25';
+  String _mobileNumber = '8910913819';
 
   // Journey-ticket configurable fields
   String _utsNumber = 'XEMBEBH037';
@@ -1093,13 +1093,13 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
 
   // Factory default values for every configurable field.
   static const Map<String, String> _defaults = {
-    'name': 'Debmalya',
+    'name': 'Satwik Basu',
     'type': 'Journey',
     'uts': 'XEMBEBH037',
     'rref': 'R27220',
     'from': 'KHARDAHA',
     'to': 'BIDHANNAGAR ROAD',
-    'dist': '— 36 km —',
+    'dist': '— 15 km —',
     'bookingDate': 'Mon, 23 Mar 26',
     'bookedOn': '23/03/2026 18:35',
     'validTill': '23/03/2026 19:35',
@@ -1107,9 +1107,9 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
     'passenger': '1 Adult, 0 Child',
     'classLine': 'FIRST | AC-EMU | JOURNEY | ₹ 40.00',
     'ir': 'IR:19AAAGM0289C1ZG',
-    'pan': 'CRMPC3965M',
-    'age': '51',
-    'mobile': '9874755795',
+    'pan': 'FEBPB9849K',
+    'age': '25',
+    'mobile': '8910913819',
   };
 
   // Repopulate every field with its factory default.
