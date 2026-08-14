@@ -2481,9 +2481,9 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
       width: w * 0.185,
       child: ClipRect(
         child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 280),
-          switchInCurve: Curves.easeOut,
-          switchOutCurve: Curves.easeIn,
+          duration: const Duration(milliseconds: 380),
+          switchInCurve: Curves.easeInOut,
+          switchOutCurve: Curves.easeInOut,
           layoutBuilder: (cur, prev) => Stack(
             alignment: Alignment.center,
             children: [...prev, if (cur != null) cur],
@@ -3049,14 +3049,13 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                             ),
                           ),
                         ),
-                        // --- GREEN ROUNDED BOTTOM STRIP ---
+                        // --- GREEN ROUNDED BOTTOM STRIP (full card width) ---
                         Container(
-                          height: 14,
-                          margin: const EdgeInsets.symmetric(horizontal: 6),
+                          height: 16,
                           decoration: const BoxDecoration(
                             color: Color(0xFFAFD599),
                             borderRadius: BorderRadius.vertical(
-                              bottom: Radius.circular(12),
+                              bottom: Radius.circular(14),
                             ),
                           ),
                         ),
@@ -3067,7 +3066,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                   // ================= INDENTED TICKET CUTOUT OVERLAYS =================
                   // Creates semi-circle indent look using overlays.
                   Positioned(
-                    bottom: 125,
+                    bottom: 80,
                     left: -24,
                     child: Container(
                       width: 48,
@@ -3079,7 +3078,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                     ),
                   ),
                   Positioned(
-                    bottom: 125,
+                    bottom: 80,
                     right: -24,
                     child: Container(
                       width: 48,
@@ -3101,14 +3100,14 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 16.0),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: const Color(0xFFFBE4EF),
-                borderRadius: BorderRadius.circular(8),
+                color: const Color(0xFFFBE6E6),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: const Text(
                 'Note: This ticket is non refundable. Ticket is stored locally on the device. Please do not change your handset or perform factory reset.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFFE23B7A),
+                  color: Color(0xFFE5322E),
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
@@ -3146,42 +3145,44 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
 
             const SizedBox(height: 24),
 
-            // QR (real, in a white card ~2% taller than the QR itself).
-            Builder(
-              builder: (context) {
-                final double qr = MediaQuery.of(context).size.width * 0.56;
-                return Center(
-                  child: Container(
-                    width: qr + 24,
-                    height: qr * 1.02 + 24,
-                    color: Colors.white,
-                    alignment: Alignment.center,
-                    child: Image.asset(
-                      'assets/ticket_qr.png',
+            // QR: full-width white card, only ~2px padding around the QR.
+            Container(
+              width: double.infinity,
+              color: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              alignment: Alignment.center,
+              child: Builder(
+                builder: (context) {
+                  final double qr = MediaQuery.of(context).size.width * 0.56;
+                  return Image.asset(
+                    'assets/ticket_qr.png',
+                    width: qr,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => SizedBox(
                       width: qr,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) => SizedBox(
-                        width: qr,
-                        height: qr,
-                        child: const Icon(
-                          Icons.qr_code,
-                          size: 200,
-                          color: Colors.grey,
-                        ),
+                      height: qr,
+                      child: const Icon(
+                        Icons.qr_code,
+                        size: 200,
+                        color: Colors.grey,
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
 
             const SizedBox(height: 24),
 
-            // Do you know text section (plain, on the page background)
+            // Do you know? card
             Container(
               width: double.infinity,
-              margin: const EdgeInsets.symmetric(horizontal: 20.0),
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              margin: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color(0xFFEDECEE),
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

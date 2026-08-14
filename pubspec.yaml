@@ -40,6 +40,24 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.1
+  flutter_native_splash: ^2.4.1
+
+# App launcher icon (full-bleed adaptive icon, no white background).
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/app_icon.png"
+  adaptive_icon_background: "#0C6DFF"
+  adaptive_icon_foreground: "assets/app_icon_fg.png"
+
+# Loading / splash screen: the app icon on a black background.
+flutter_native_splash:
+  color: "#000000"
+  image: assets/app_icon.png
+  android_12:
+    image: assets/app_icon.png
+    color: "#000000"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
