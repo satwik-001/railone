@@ -2474,9 +2474,11 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
   String get _ss => (_secondsRemaining % 60).toString().padLeft(2, '0');
 
   // One animated 2-digit group: new slides in from top, old slides down & out.
+  // Fixed width so MM / ":" / SS never shift as the seconds change.
   Widget _slideDigits(String value, double w) {
     return SizedBox(
       height: w * 0.15,
+      width: w * 0.185,
       child: ClipRect(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 280),
@@ -2541,6 +2543,18 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
     }
   }
 
+  // Journey Ticket valid-till = booked time + 1 hour (same day).
+  String getJourneyValidTill(String bookedOnStr) {
+    try {
+      final parts = bookedOnStr.split(' ');
+      final t = parts[1].split(':');
+      final hh = (int.parse(t[0]) + 1) % 24;
+      return '${parts[0]} ${hh.toString().padLeft(2, '0')}:${t[1]}';
+    } catch (e) {
+      return bookedOnStr;
+    }
+  }
+
   // Takes '23/03/2026 18:35' and automatically calculates the exact next day for 'Valid Till'.
   String getValidTill(String bookedOnStr) {
     try {
@@ -2568,6 +2582,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
     String topTicketDate = getTicketBookingDateTime(widget.bookedOn);
     String validFromDate = widget.bookedOn.split(' ')[0]; // Just the date part
     String validTillDate = getValidTill(widget.bookedOn); // Next day calculated
+    String journeyValidTill = getJourneyValidTill(widget.bookedOn);
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -2848,7 +2863,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
-                                    'Season Ticket',
+                                    'Journey Ticket',
                                     style: TextStyle(
                                       color: Color(0xFF2A2A30),
                                       fontSize: 20,
@@ -2859,16 +2874,14 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                     style: const TextStyle(
                                       color: Colors.black87,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: 15,
                                     ),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 20),
-
-                              // Corrected Wrapping for Location Names: names wrap underneath start position.
                               Row(
-                                crossAxisAlignment: CrossAxisAlignment
-                                    .start, // Align wrap to top
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
                                     child: Text(
@@ -2878,7 +2891,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                         fontSize: 14,
                                       ),
                                     ),
-                                  ), // Dynamic From
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0,
@@ -2890,7 +2903,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                         fontSize: 12,
                                       ),
                                     ),
-                                  ), // Dynamic Distance
+                                  ),
                                   Expanded(
                                     child: Text(
                                       widget.toLocation,
@@ -2900,39 +2913,65 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                         fontSize: 14,
                                       ),
                                     ),
-                                  ), // Dynamic To
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 20),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
+                                children: const [
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
+                                        Text(
                                           'Via',
                                           style: TextStyle(
                                             color: Colors.black54,
                                             fontSize: 12,
                                           ),
                                         ),
+                                        SizedBox(height: 2),
                                         Text(
-                                          widget.viaStation,
-                                          style: const TextStyle(
+                                          '-',
+                                          style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ), // Dynamic Via
+                                  ),
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'Passenger',
+                                          style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                        SizedBox(height: 2),
+                                        Text(
+                                          '1 Adult, 0 Child',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         const Text(
                                           'Booked on',
@@ -2941,6 +2980,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                             fontSize: 12,
                                           ),
                                         ),
+                                        const SizedBox(height: 2),
                                         Text(
                                           widget.bookedOn,
                                           style: const TextStyle(
@@ -2949,168 +2989,64 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                         ),
                                       ],
                                     ),
-                                  ), // Dynamic Booked On date/time
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        'Valid From',
-                                        style: TextStyle(
-                                          color: Colors.black54,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      Text(
-                                        validFromDate,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ), // Dynamic Valid From (Date part of Booked On)
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      const Text(
-                                        '*Valid Till',
-                                        style: TextStyle(
-                                          color: Colors.black54,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      Text(
-                                        validTillDate,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ), // Dynamic Calculated Next Day Valid Till
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              Text(
-                                '${widget.ticketType} | ORDINARY | SECOND | ₹ 185.00',
-                                style: const TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ), // Dynamic Type
-                            ],
-                          ),
-                        ),
-
-                        // --- DIVIDER AREA (Overlay Cutouts happen here) ---
-                        const SizedBox(height: 10),
-
-                        // --- BOTTOM SECTION (PASSENGER DETAILS) ---
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
+                                  ),
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                          CrossAxisAlignment.end,
                                       children: [
                                         const Text(
-                                          'Name',
+                                          '*Valid Till',
                                           style: TextStyle(
                                             color: Colors.black54,
                                             fontSize: 12,
                                           ),
                                         ),
+                                        const SizedBox(height: 2),
                                         Text(
-                                          widget.userName,
+                                          journeyValidTill,
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 15,
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ), // DYNAMIC USER NAME
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      const Text(
-                                        'Age',
-                                        style: TextStyle(
-                                          color: Colors.black54,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${widget.age} years',
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ), // Dynamic Age
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'ID Type',
-                                        style: TextStyle(
-                                          color: Colors.black54,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      Text(
-                                        '',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      const Text(
-                                        'ID Number',
-                                        style: TextStyle(
-                                          color: Colors.black54,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      Text(
-                                        widget.panCard,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ), // Dynamic PAN Card number
-                                ],
+                              const Text(
+                                'FIRST | AC-EMU | JOURNEY | ₹ 40.00',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              const Text(
+                                'IR:19AAAGM0289C1ZG',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ],
+                          ),
+                        ),
+                        // --- DIVIDER AREA (Overlay Cutouts happen here) ---
+                        const SizedBox(height: 10),
+                        // --- VALIDITY NOTE (below perforation) ---
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 6, 16, 14),
+                          child: Text(
+                            '*Valid for start of journey within 1 hour or until departure of the first train.',
+                            style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: 12,
+                              height: 1.4,
+                            ),
                           ),
                         ),
                         // --- GREEN ROUNDED BOTTOM STRIP ---
@@ -3181,26 +3117,27 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
 
             const SizedBox(height: 20),
 
-            // Upgrade Button
+            // Book Connecting Journey (outlined)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: SizedBox(
                 width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
+                height: 52,
+                child: OutlinedButton(
                   onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0052D4),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    side: const BorderSide(color: Color(0xFF2962FF), width: 1.4),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
+                      borderRadius: BorderRadius.circular(26),
                     ),
                   ),
                   child: const Text(
-                    'Upgrade to Superfast',
+                    'Book Connecting Journey',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Color(0xFF2962FF),
                       fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -3209,18 +3146,33 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
 
             const SizedBox(height: 24),
 
-            // QR extracted from the real ticket (sits on the page background).
-            Center(
-              child: Image.asset(
-                'assets/ticket_qr.png',
-                width: MediaQuery.of(context).size.width * 0.56,
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) => const SizedBox(
-                  width: 250,
-                  height: 250,
-                  child: Icon(Icons.qr_code, size: 200, color: Colors.grey),
-                ),
-              ),
+            // QR (real, in a white card ~2% taller than the QR itself).
+            Builder(
+              builder: (context) {
+                final double qr = MediaQuery.of(context).size.width * 0.56;
+                return Center(
+                  child: Container(
+                    width: qr + 24,
+                    height: qr * 1.02 + 24,
+                    color: Colors.white,
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      'assets/ticket_qr.png',
+                      width: qr,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) => SizedBox(
+                        width: qr,
+                        height: qr,
+                        child: const Icon(
+                          Icons.qr_code,
+                          size: 200,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
 
             const SizedBox(height: 24),
