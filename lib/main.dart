@@ -3385,10 +3385,13 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                 ),
                                 child: Row(
                                   children: [
-                                    const Icon(
-                                      Icons.trending_flat,
-                                      size: 18,
-                                      color: Colors.black54,
+                                    Transform.rotate(
+                                      angle: 1.5708, // 90° so it faces right
+                                      child: const Icon(
+                                        Icons.alt_route,
+                                        size: 16,
+                                        color: Colors.black54,
+                                      ),
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
