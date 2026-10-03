@@ -917,6 +917,9 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
     _classValueController = TextEditingController(text: widget.currentClassValue);
     _trainTypeController = TextEditingController(text: widget.currentTrainType);
     _fareController = TextEditingController(text: widget.currentFare);
+    // Keep the Class/Train Type chips in sync while typing free text.
+    _classValueController.addListener(() => setState(() {}));
+    _trainTypeController.addListener(() => setState(() {}));
     _irController = TextEditingController(text: widget.currentIrNumber);
     _ageController = TextEditingController(text: widget.currentAge);
     _mobileController = TextEditingController(text: widget.currentMobile);
@@ -1013,9 +1016,15 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
             // Ticket meta
             _buildInputField('Passenger Details', _passengerController),
             const SizedBox(height: 16),
-            _buildInputField('Class (e.g. FIRST)', _classValueController),
+            _buildToggleInputField('Class', _classValueController, const [
+              'FIRST',
+              'SECOND',
+            ]),
             const SizedBox(height: 16),
-            _buildInputField('Train Type (e.g. AC-EMU)', _trainTypeController),
+            _buildToggleInputField('Train Type', _trainTypeController, const [
+              'AC-EMU',
+              'ORDINARY',
+            ]),
             const SizedBox(height: 16),
             _buildInputField('Fare (e.g. ₹40.00)', _fareController),
             const SizedBox(height: 16),
@@ -1165,6 +1174,54 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
     _panController.text = _defaults['pan']!;
     _ageController.text = _defaults['age']!;
     _mobileController.text = _defaults['mobile']!;
+  }
+
+  // A quick-toggle (chips) plus free-text field for the same value.
+  Widget _buildToggleInputField(
+    String label,
+    TextEditingController controller,
+    List<String> options,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.blue.shade800,
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: options.map((opt) {
+            final bool selected =
+                controller.text.trim().toUpperCase() == opt.toUpperCase();
+            return Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ChoiceChip(
+                label: Text(opt),
+                selected: selected,
+                onSelected: (_) => setState(() => controller.text = opt),
+                selectedColor: const Color(0xFF0066FF),
+                backgroundColor: Colors.blue.shade50,
+                labelStyle: TextStyle(
+                  color: selected ? Colors.white : Colors.black87,
+                  fontWeight: FontWeight.w600,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  side: BorderSide(color: Colors.blue.shade100),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+        const SizedBox(height: 8),
+        _buildInputField('$label (or type your own)', controller),
+      ],
+    );
   }
 
   Widget _buildInputField(String label, TextEditingController controller) {
@@ -2942,6 +2999,10 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
         (widget.viaStation.trim().isEmpty || widget.viaStation.trim() == '-')
         ? '------'
         : widget.viaStation;
+    final String distanceDisplay = widget.distance
+        .replaceAll('—', '')
+        .replaceAll('-', '')
+        .trim();
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -3032,7 +3093,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                         Container(
                           height: 16,
                           decoration: const BoxDecoration(
-                            color: Color(0xFFAFD599),
+                            color: Color(0xFFAFD8F2),
                             borderRadius: BorderRadius.vertical(
                               top: Radius.circular(14),
                             ),
@@ -3207,7 +3268,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                               widthFactor: (1 - (_secondsRemaining / 299))
                                   .clamp(0.0, 1.0),
                               child: Container(
-                                color: const Color(0xFFAFD599),
+                                color: const Color(0xFFAFD8F2),
                               ),
                             ),
                           ),
@@ -3289,7 +3350,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                               const SizedBox(height: 16),
                               _detailRow(
                                 'Distance',
-                                widget.distance,
+                                distanceDisplay,
                                 'Passenger',
                                 widget.passenger,
                               ),
@@ -3316,6 +3377,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                   vertical: 12,
                                 ),
                                 decoration: BoxDecoration(
+                                  color: const Color(0xFFF4F5F7),
                                   border: Border.all(
                                     color: const Color(0xFFE0E0E0),
                                   ),
@@ -3324,8 +3386,8 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                 child: Row(
                                   children: [
                                     const Icon(
-                                      Icons.alt_route,
-                                      size: 16,
+                                      Icons.trending_flat,
+                                      size: 18,
                                       color: Colors.black54,
                                     ),
                                     const SizedBox(width: 8),
@@ -3334,6 +3396,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                       style: const TextStyle(
                                         color: Colors.black87,
                                         fontSize: 13,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ],
@@ -3369,7 +3432,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                         Container(
                           height: 16,
                           decoration: const BoxDecoration(
-                            color: Color(0xFFAFD599),
+                            color: Color(0xFFAFD8F2),
                             borderRadius: BorderRadius.vertical(
                               bottom: Radius.circular(14),
                             ),
