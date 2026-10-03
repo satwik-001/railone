@@ -279,7 +279,7 @@ class _MainScreenState extends State<MainScreen> {
   String _ticketType = 'Journey';
   String _fromLocation = 'KHARDAHA';
   String _toLocation = 'BIDHANNAGAR ROAD';
-  String _distance = '— 15 km —';
+  String _distance = '15 km';
   String _bookingDate = 'Mon, 23 Mar 26';
 
   // New States added
@@ -294,7 +294,9 @@ class _MainScreenState extends State<MainScreen> {
   String _rRef = 'R27220';
   String _passenger = '1 Adult, 0 Child';
   String _validTill = '23/03/2026 19:35';
-  String _classLine = 'FIRST | AC-EMU | JOURNEY | ₹ 40.00';
+  String _classValue = 'FIRST';
+  String _trainType = 'AC-EMU';
+  String _fare = '₹40.00';
   String _irNumber = 'IR:19AAAGM0289C1ZG';
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -330,7 +332,9 @@ class _MainScreenState extends State<MainScreen> {
   static const String _keyRRef = 'r_ref';
   static const String _keyPassenger = 'passenger';
   static const String _keyValidTill = 'valid_till';
-  static const String _keyClassLine = 'class_line';
+  static const String _keyClassValue = 'class_value';
+  static const String _keyTrainType = 'train_type';
+  static const String _keyFare = 'fare';
   static const String _keyIrNumber = 'ir_number';
 
   // Loads saved data from SharedPreferences, providing fallback default values
@@ -351,7 +355,9 @@ class _MainScreenState extends State<MainScreen> {
       _rRef = _prefs.getString(_keyRRef) ?? _rRef;
       _passenger = _prefs.getString(_keyPassenger) ?? _passenger;
       _validTill = _prefs.getString(_keyValidTill) ?? _validTill;
-      _classLine = _prefs.getString(_keyClassLine) ?? _classLine;
+      _classValue = _prefs.getString(_keyClassValue) ?? _classValue;
+      _trainType = _prefs.getString(_keyTrainType) ?? _trainType;
+      _fare = _prefs.getString(_keyFare) ?? _fare;
       _irNumber = _prefs.getString(_keyIrNumber) ?? _irNumber;
     });
   }
@@ -387,7 +393,9 @@ class _MainScreenState extends State<MainScreen> {
       _validTill = d['validTill'] ?? _validTill;
       _viaStation = d['via'] ?? _viaStation;
       _passenger = d['passenger'] ?? _passenger;
-      _classLine = d['classLine'] ?? _classLine;
+      _classValue = d['classVal'] ?? _classValue;
+      _trainType = d['trainType'] ?? _trainType;
+      _fare = d['fare'] ?? _fare;
       _irNumber = d['ir'] ?? _irNumber;
       _panCard = d['pan'] ?? _panCard;
       _age = d['age'] ?? _age;
@@ -405,7 +413,9 @@ class _MainScreenState extends State<MainScreen> {
     _prefs.setString(_keyValidTill, _validTill);
     _prefs.setString(_keyViaStation, _viaStation);
     _prefs.setString(_keyPassenger, _passenger);
-    _prefs.setString(_keyClassLine, _classLine);
+    _prefs.setString(_keyClassValue, _classValue);
+    _prefs.setString(_keyTrainType, _trainType);
+    _prefs.setString(_keyFare, _fare);
     _prefs.setString(_keyIrNumber, _irNumber);
     _prefs.setString(_keyPanCard, _panCard);
     _prefs.setString(_keyAge, _age);
@@ -517,7 +527,9 @@ class _MainScreenState extends State<MainScreen> {
                       rRef: _rRef,
                       passenger: _passenger,
                       validTill: _validTill,
-                      classLine: _classLine,
+                      classValue: _classValue,
+                      trainType: _trainType,
+                      fare: _fare,
                       irNumber: _irNumber,
                       onBookAgain: _bookAgain,
                     ),
@@ -730,7 +742,9 @@ class _MainScreenState extends State<MainScreen> {
                             currentPanCard: _panCard,
                             currentVia: _viaStation,
                             currentPassenger: _passenger,
-                            currentClassLine: _classLine,
+                            currentClassValue: _classValue,
+                            currentTrainType: _trainType,
+                            currentFare: _fare,
                             currentIrNumber: _irNumber,
                             currentAge: _age,
                             currentMobile: _mobileNumber,
@@ -824,7 +838,9 @@ class ShowHideServicesScreen extends StatefulWidget {
       currentPanCard,
       currentVia,
       currentPassenger,
-      currentClassLine,
+      currentClassValue,
+      currentTrainType,
+      currentFare,
       currentIrNumber,
       currentAge,
       currentMobile;
@@ -846,7 +862,9 @@ class ShowHideServicesScreen extends StatefulWidget {
     required this.currentPanCard,
     required this.currentVia,
     required this.currentPassenger,
-    required this.currentClassLine,
+    required this.currentClassValue,
+    required this.currentTrainType,
+    required this.currentFare,
     required this.currentIrNumber,
     required this.currentAge,
     required this.currentMobile,
@@ -872,7 +890,9 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
       _panController,
       _viaController,
       _passengerController,
-      _classLineController,
+      _classValueController,
+      _trainTypeController,
+      _fareController,
       _irController,
       _ageController,
       _mobileController;
@@ -894,7 +914,9 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
     _panController = TextEditingController(text: widget.currentPanCard);
     _viaController = TextEditingController(text: widget.currentVia);
     _passengerController = TextEditingController(text: widget.currentPassenger);
-    _classLineController = TextEditingController(text: widget.currentClassLine);
+    _classValueController = TextEditingController(text: widget.currentClassValue);
+    _trainTypeController = TextEditingController(text: widget.currentTrainType);
+    _fareController = TextEditingController(text: widget.currentFare);
     _irController = TextEditingController(text: widget.currentIrNumber);
     _ageController = TextEditingController(text: widget.currentAge);
     _mobileController = TextEditingController(text: widget.currentMobile);
@@ -916,7 +938,9 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
     _panController.dispose();
     _viaController.dispose();
     _passengerController.dispose();
-    _classLineController.dispose();
+    _classValueController.dispose();
+    _trainTypeController.dispose();
+    _fareController.dispose();
     _irController.dispose();
     _ageController.dispose();
     _mobileController.dispose();
@@ -989,7 +1013,11 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
             // Ticket meta
             _buildInputField('Passenger Details', _passengerController),
             const SizedBox(height: 16),
-            _buildInputField('Class Line', _classLineController),
+            _buildInputField('Class (e.g. FIRST)', _classValueController),
+            const SizedBox(height: 16),
+            _buildInputField('Train Type (e.g. AC-EMU)', _trainTypeController),
+            const SizedBox(height: 16),
+            _buildInputField('Fare (e.g. ₹40.00)', _fareController),
             const SizedBox(height: 16),
             _buildInputField('IR Number', _irController),
             const SizedBox(height: 16),
@@ -1022,7 +1050,9 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
                     'validTill': _validTillController.text,
                     'via': _viaController.text,
                     'passenger': _passengerController.text,
-                    'classLine': _classLineController.text,
+                    'classVal': _classValueController.text,
+                    'trainType': _trainTypeController.text,
+                    'fare': _fareController.text,
                     'ir': _irController.text,
                     'pan': _panController.text,
                     'age': _ageController.text,
@@ -1099,13 +1129,15 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
     'rref': 'R27220',
     'from': 'KHARDAHA',
     'to': 'BIDHANNAGAR ROAD',
-    'dist': '— 15 km —',
+    'dist': '15 km',
     'bookingDate': 'Mon, 23 Mar 26',
     'bookedOn': '23/03/2026 18:35',
     'validTill': '23/03/2026 19:35',
     'via': '-',
     'passenger': '1 Adult, 0 Child',
-    'classLine': 'FIRST | AC-EMU | JOURNEY | ₹ 40.00',
+    'classVal': 'FIRST',
+    'trainType': 'AC-EMU',
+    'fare': '₹40.00',
     'ir': 'IR:19AAAGM0289C1ZG',
     'pan': 'FEBPB9849K',
     'age': '25',
@@ -1126,7 +1158,9 @@ class _ShowHideServicesScreenState extends State<ShowHideServicesScreen> {
     _validTillController.text = _defaults['validTill']!;
     _viaController.text = _defaults['via']!;
     _passengerController.text = _defaults['passenger']!;
-    _classLineController.text = _defaults['classLine']!;
+    _classValueController.text = _defaults['classVal']!;
+    _trainTypeController.text = _defaults['trainType']!;
+    _fareController.text = _defaults['fare']!;
     _irController.text = _defaults['ir']!;
     _panController.text = _defaults['pan']!;
     _ageController.text = _defaults['age']!;
@@ -1422,7 +1456,7 @@ class MyBookingsScreen extends StatefulWidget {
       distance,
       bookingDate;
   final String bookedOn, panCard, viaStation, age, mobileNumber;
-  final String utsNumber, rRef, passenger, validTill, classLine, irNumber;
+  final String utsNumber, rRef, passenger, validTill, classValue, trainType, fare, irNumber;
   final Map<String, String> Function() onBookAgain;
 
   const MyBookingsScreen({
@@ -1442,7 +1476,9 @@ class MyBookingsScreen extends StatefulWidget {
     required this.rRef,
     required this.passenger,
     required this.validTill,
-    required this.classLine,
+    required this.classValue,
+    required this.trainType,
+    required this.fare,
     required this.irNumber,
     required this.onBookAgain,
   });
@@ -1586,7 +1622,9 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
               rRef: widget.rRef,
               passenger: widget.passenger,
               validTill: widget.validTill,
-              classLine: widget.classLine,
+              classValue: widget.classValue,
+              trainType: widget.trainType,
+              fare: widget.fare,
               irNumber: widget.irNumber,
               onBookAgain: widget.onBookAgain,
             ),
@@ -2318,7 +2356,7 @@ class TicketCard extends StatelessWidget {
   final String fromStation, toStation, durationOrDistance;
   // Dynamic fields from persistence
   final String bookedOn, panCard, viaStation, age, mobileNumber;
-  final String? utsNumber, rRef, passenger, validTill, classLine, irNumber;
+  final String? utsNumber, rRef, passenger, validTill, classValue, trainType, fare, irNumber;
   final Map<String, String> Function()? onBookAgain;
   final Color borderColor;
   final bool bookAgainBlue;
@@ -2348,7 +2386,9 @@ class TicketCard extends StatelessWidget {
     this.rRef,
     this.passenger,
     this.validTill,
-    this.classLine,
+    this.classValue,
+    this.trainType,
+    this.fare,
     this.irNumber,
     this.onBookAgain,
   });
@@ -2510,9 +2550,9 @@ class TicketCard extends StatelessWidget {
                                   rRef: rRef ?? 'R27220',
                                   passenger: passenger ?? '1 Adult, 0 Child',
                                   validTill: d['validTill'] ?? validTill ?? '',
-                                  classLine:
-                                      classLine ??
-                                      'FIRST | AC-EMU | JOURNEY | ₹ 40.00',
+                                  classValue: classValue ?? 'FIRST',
+                                  trainType: trainType ?? 'AC-EMU',
+                                  fare: fare ?? '₹40.00',
                                   irNumber: irNumber ?? 'IR:19AAAGM0289C1ZG',
                                   bookedOn: d['bookedOn'] ?? bookedOn,
                                   panCard: panCard,
@@ -2559,9 +2599,9 @@ class TicketCard extends StatelessWidget {
                             rRef: rRef ?? 'R27220',
                             passenger: passenger ?? '1 Adult, 0 Child',
                             validTill: validTill ?? '',
-                            classLine:
-                                classLine ??
-                                'FIRST | AC-EMU | JOURNEY | ₹ 40.00',
+                            classValue: classValue ?? 'FIRST',
+                            trainType: trainType ?? 'AC-EMU',
+                            fare: fare ?? '₹40.00',
                             irNumber: irNumber ?? 'IR:19AAAGM0289C1ZG',
                             bookedOn: bookedOn,
                             panCard: panCard,
@@ -2696,7 +2736,7 @@ class BookingDetailsScreen extends StatefulWidget {
       bookingDate,
       refNumber;
   final String bookedOn, panCard, viaStation, age, mobileNumber;
-  final String rRef, passenger, validTill, classLine, irNumber;
+  final String rRef, passenger, validTill, classValue, trainType, fare, irNumber;
 
   const BookingDetailsScreen({
     super.key,
@@ -2715,7 +2755,9 @@ class BookingDetailsScreen extends StatefulWidget {
     required this.rRef,
     required this.passenger,
     required this.validTill,
-    required this.classLine,
+    required this.classValue,
+    required this.trainType,
+    required this.fare,
     required this.irNumber,
   });
 
@@ -2724,6 +2766,36 @@ class BookingDetailsScreen extends StatefulWidget {
 }
 
 class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
+  // Two label/value columns in one row (left start-aligned, right end-aligned).
+  Widget _detailRow(String l1, String v1, String l2, String v2) {
+    Widget col(String label, String value, bool end) => Expanded(
+      child: Column(
+        crossAxisAlignment:
+            end ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(color: Colors.black54, fontSize: 12.5),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            value,
+            textAlign: end ? TextAlign.right : TextAlign.left,
+            style: const TextStyle(
+              color: Color(0xFF212121),
+              fontWeight: FontWeight.w700,
+              fontSize: 14.5,
+            ),
+          ),
+        ],
+      ),
+    );
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [col(l1, v1, false), col(l2, v2, true)],
+    );
+  }
+
   // Timer State now starts at 04:59 (299 seconds)
   int _secondsRemaining = 299;
   Timer? _timer;
@@ -2866,8 +2938,10 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
 
     // Dynamically derived date strings based on the 'Booked On' persistent state.
     String topTicketDate = getTicketBookingDateTime(widget.bookedOn);
-    String validFromDate = widget.bookedOn.split(' ')[0]; // Just the date part
-    String validTillDate = getValidTill(widget.bookedOn); // Next day calculated
+    final String viaDisplay =
+        (widget.viaStation.trim().isEmpty || widget.viaStation.trim() == '-')
+        ? '------'
+        : widget.viaStation;
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -3145,172 +3219,127 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // Header: ticket type label + UTS number, ACTIVE badge
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '${widget.ticketType} Ticket',
-                                    style: const TextStyle(
-                                      color: Color(0xFF2A2A30),
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  Text(
-                                    widget.refNumber,
-                                    style: const TextStyle(
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(
-                                    child: Text(
-                                      widget.fromLocation,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${widget.ticketType} Ticket',
+                                        style: const TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 13,
+                                        ),
                                       ),
-                                    ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        widget.utsNumber,
+                                        style: const TextStyle(
+                                          color: Color(0xFF2A2A30),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Padding(
+                                  Container(
                                     padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0,
+                                      horizontal: 12,
+                                      vertical: 6,
                                     ),
-                                    child: Text(
-                                      widget.distance,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFE7F5E9),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: const [
+                                        Icon(
+                                          Icons.circle,
+                                          size: 9,
+                                          color: Color(0xFF34A853),
+                                        ),
+                                        SizedBox(width: 6),
+                                        Text(
+                                          'ACTIVE',
+                                          style: TextStyle(
+                                            color: Color(0xFF2E7D32),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12.5,
+                                            letterSpacing: 0.3,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 18),
+                              _detailRow(
+                                'Source',
+                                widget.fromLocation,
+                                'Destination',
+                                widget.toLocation,
+                              ),
+                              const SizedBox(height: 16),
+                              _detailRow(
+                                'Distance',
+                                widget.distance,
+                                'Passenger',
+                                widget.passenger,
+                              ),
+                              const SizedBox(height: 16),
+                              _detailRow(
+                                'Ticket Type',
+                                widget.ticketType.toUpperCase(),
+                                'Train Types',
+                                widget.trainType,
+                              ),
+                              const SizedBox(height: 16),
+                              _detailRow(
+                                'Class',
+                                widget.classValue,
+                                'Fare',
+                                widget.fare,
+                              ),
+                              const SizedBox(height: 18),
+                              // Via pill box
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 14,
+                                  vertical: 12,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: const Color(0xFFE0E0E0),
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.alt_route,
+                                      size: 16,
+                                      color: Colors.black54,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Via: $viaDisplay',
                                       style: const TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 12,
+                                        color: Colors.black87,
+                                        fontSize: 13,
                                       ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      widget.toLocation,
-                                      textAlign: TextAlign.right,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          'Via',
-                                          style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        SizedBox(height: 2),
-                                        Text(
-                                          widget.viaStation,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        const Text(
-                                          'Passenger',
-                                          style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          widget.passenger,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          'Booked on',
-                                          style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          widget.bookedOn,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        const Text(
-                                          '*Valid Till',
-                                          style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          widget.validTill,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              Text(
-                                widget.classLine,
-                                style: const TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 6),
+                              const SizedBox(height: 14),
                               Text(
                                 widget.irNumber,
                                 style: const TextStyle(
