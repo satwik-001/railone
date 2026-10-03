@@ -3238,7 +3238,7 @@ class _BookingDetailsScreenState extends State<BookingDetailsScreen> {
                                       ),
                                       const SizedBox(height: 2),
                                       Text(
-                                        widget.utsNumber,
+                                        widget.refNumber,
                                         style: const TextStyle(
                                           color: Color(0xFF2A2A30),
                                           fontWeight: FontWeight.bold,
